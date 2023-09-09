@@ -1,0 +1,15 @@
+{
+  "description": {
+    "name": "docker",
+    "title": "Docker",
+    "website":"https://www.docker.com/",
+    "title_en": "Docker",
+    "ps": "Docker 是一个轻量级容器技术",
+    "ps_en": "Docker is a lightweight container technology",
+    "version_shell": "",
+    "server_path": "/www/server/docker",
+    "mutex": "",
+    "dependent": ""
+  },
+  "versions": []
+}

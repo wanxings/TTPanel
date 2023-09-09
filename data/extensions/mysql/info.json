@@ -1,0 +1,137 @@
+{
+  "description": {
+    "name": "mysql",
+    "title": "mysql",
+    "title_en": "mysql",
+    "website":"https://www.mysql.com/",
+    "ps": "MySQL是一种关系数据库管理系统,支持alisql/greatsql/mariadb",
+    "ps_en": "ySQL is a relational database management system,Supports Alisql/GreatSQL/MariaDB",
+    "version_shell": "/www/server/mysql/bin/mysql -V|grep Ver|awk '{print $5}'|cut -f1 -d','",
+    "server_path": "/www/server/mysql",
+    "init_shell": "/etc/init.d/mysql",
+    "mutex": "",
+    "dependent": ""
+  },
+  "versions": [
+    {
+      "name": "mysql-5.5",
+      "version": "5.5.62",
+      "s_version": "55",
+      "m_version": "5.5",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mysql-5.6",
+      "version": "5.6.50",
+      "s_version": "56",
+      "m_version": "5.6",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mysql-5.7",
+      "version": "5.7.40",
+      "s_version": "57",
+      "m_version": "5.7",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mysql-8.0",
+      "version": "8.0.24",
+      "s_version": "80",
+      "m_version": "8.0",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-5.5",
+      "version": "5.5.55",
+      "s_version": "55",
+      "m_version": "mariadb_5.5",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.0.38",
+      "version": "10.0",
+      "s_version": "100",
+      "m_version": "mariadb_10.0",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.1.47",
+      "version": "10.1",
+      "s_version": "101",
+      "m_version": "mariadb_10.1",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.2.38",
+      "version": "10.2",
+      "s_version": "102",
+      "m_version": "mariadb_10.2",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.3.29",
+      "version": "10.3",
+      "s_version": "103",
+      "m_version": "mariadb_10.3",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.4.19",
+      "version": "10.4",
+      "s_version": "104",
+      "m_version": "mariadb_10.4",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.5.10",
+      "version": "10.5",
+      "s_version": "105",
+      "m_version": "mariadb_10.5",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.6.7",
+      "version": "10.6",
+      "s_version": "106",
+      "m_version": "mariadb_10.6",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.7.3",
+      "version": "10.7",
+      "s_version": "107",
+      "m_version": "mariadb_10.7",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "mariadb-10.8.2",
+      "version": "10.8",
+      "s_version": "108",
+      "m_version": "mariadb_10.8",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "AliSQL-5.6.32",
+      "version": "5.6",
+      "s_version": "56",
+      "m_version": "alisql",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    }
+  ]
+}

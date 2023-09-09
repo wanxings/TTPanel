@@ -1,0 +1,329 @@
+{
+  "IPFormatError": "IP {{.IP}} format error",
+  "PortFormatError": "Port {{.Port}} format error",
+  "PortIsIllegalOrCommon": "Port {{.Port}}  is illegal or port is common port",
+  "PortOccupied": "port {{.Port}} already in use",
+  "backup": {
+    "database": "Backup database [{{.Name}}] successfully",
+    "dir": "Backup dir [{{.Name}}] successfully",
+    "project": "Backup project [{{.Name}}] successfully"
+  },
+  "cron_task": {
+    "ClearLog": "Clear CronTask {{.Name}} Log successfully",
+    "Create": "Create CronTask {{.Name}} successfully",
+    "Delete": "Delete CronTask {{.Name}} successfully",
+    "Edit": "Edit CronTask {{.Name}} successfully",
+    "Execute": "Execute CronTask {{.Name}} successfully",
+    "SetStatus": "Set CronTask {{.Name}} status to {{.Status}} successfully"
+  },
+  "database": {
+    "mysql": {
+      "ChangeUserPassword": "Change Mysql database user {{.User}} password",
+      "Create": "Create database {{.Name}} success",
+      "DatabaseAlreadyExists": "Sync mysql database to server",
+      "DatabaseCharsetError": "Database charset error",
+      "Delete": "Delete Mysql database {{.Name}}",
+      "GetRootPassword": "Get Mysql root password",
+      "ImportDatabase": "Import Mysql database {{.Name}}",
+      "NameAndUserNameIsIllegal": "Database name and user name can only be letters, numbers, and underscores",
+      "SavePerformanceConfig": "Save mysql PerformanceConfig successfully",
+      "SetDatabaseUserAccess": "Set Mysql database User {{.User}} access permission to {{.Permission}}",
+      "SetRootPassword": "Set Mysql root password",
+      "SyncDatabaseFromServer": "Sync database from server successfully",
+      "SyncDatabaseToServer": "Sync mysql database from server successfully"
+    }
+  },
+  "docker": {
+    "app": {
+      "DeployApp": "Deploy the docker application {{.Name}} successfully",
+      "UpdateAppList": "Update DockerAppList successfully"
+    },
+    "compose": {
+      "Create": "Create docker compose {{.Name}}, logPath: {{.LogPath}}",
+      "Delete": "Delete docker compose {{.Name}} successfully",
+      "Operate": "Operate Compose Name:{{.Name}} Action:{{.Action}} Service:{{.Service}} successfully",
+      "SaveConfig": "Save docker app compose Config  {{.ComposePath}} successfully"
+    },
+    "compose_template": {
+      "Create": "Create compose template {{.Name}} successfully",
+      "Delete": "Delete compose template {{.Name}} successfully",
+      "Edit": "Edit compose template ID:{{.ID}} Name:{{.Name}}  successfully",
+      "PullImage": "Pull compose template image ID:{{.ID}}, logPath: {{.LogPath}}"
+    },
+    "container": {
+      "ConnectSSH": "Connect docker container SSH ContainerId:{{.ContainerId}} User:{{.User}} Command:{{.Command}}",
+      "CpuExceed": "cpu cannot be greater than server cpu, set cpu to: [{{.Set}}] server cpu to: [{{.Get}}]",
+      "Create": "Create docker container {{.Name}} successfully",
+      "MemoryExceed": "Memory cannot be greater than server memory, set memory to: [{{.Set}}] server memory to: [{{.Get}}]",
+      "Operate": "Operate docker container {{.Name}} , action:{{.Action}} successfully"
+    },
+    "image": {
+      "Build": "Build docker image {{.Name}} , logPath: {{.LogPath}}",
+      "Delete": "Delete image successfully, imageID：{{.ID}}",
+      "Export": "Export image successfully, imageID：{{.ID}}, savePath：{{SavePath}}",
+      "Import": "Import local image file {{.Path}} successfully",
+      "Pull": "Pull docker image {{.Name}}, logPath: {{.LogPath}}",
+      "Push": "Push docker image imageID: {{.ID}} , logPath: {{.LogPath}}"
+    },
+    "networking": {
+      "Create": "Create docker networking {{.Name}} successfully",
+      "Delete": "Delete docker networking {{.ID}} successfully"
+    },
+    "repository": {
+      "Add": "Add repository {{.Name}} successfully",
+      "Delete": "Delete repository {{.Name}} successfully",
+      "Edit": "Edit repository {{.Name}} successfully",
+      "LoginError": "Login Repository failed:{{.Err}}]",
+      "NameExist": "Repository name {{.Name}} already exists"
+    },
+    "volume": {
+      "Create": "Create docker volume {{.Name}} successfully",
+      "Delete": "Delete docker volume {{.Name}} successfully"
+    }
+  },
+  "explorer": {
+    "CannotOperateSensitivePath": "Cannot operate sensitive path {{.Path}}",
+    "ClearLogFile": "Clear LogFile {{.Path}} successfully",
+    "Compress": "Compressed {{.Path}} successfully",
+    "Copy": "Copy directory {{.InitPath}} under {{.FileList}} to {{.ToPath}} successfully",
+    "CreateDir": "Create directory {{.Path}} successfully",
+    "CreateDuplicate": "Create duplicate {{.NewPath}} <- {{.OldPath}} successfully",
+    "CreateFile": "Create file {{.Path}} successfully",
+    "CreateSymlink": "Create Symlink {{.NewPath}} -> {{.OldPath}} successfully",
+    "Decompress": "Decompressed {{.CompressFilePath}} -> {{.DecompressDirPath}} successfully",
+    "Delete": "Delete {{.Path}} successfully",
+    "DeleteDownloadExternalLink": "DeleteDownloadExternalLink {{.ID}} successfully",
+    "GenerateDownloadExternalLink": "Generate Download ExternalLink {{.Path}} successfully",
+    "Move": "Move directory {{.InitPath}} under {{.FileList}} to {{.ToPath}} successfully",
+    "OperateFavorites": "Operate Explorer Favorites Path:{{.Path}} Action:{{.Action}} successfully",
+    "RemoteDownload": "Remotely download files {{.Url}} -> {{.Path}} add successfully",
+    "Rename": "Rename {{.OldPath}} to {{.NewPath}} successfully",
+    "Save": "File {{.Path}} save successfully",
+    "SetPermission": "Set {{.Path}} permission to {{.Permission}} owner to {{.User}} successfully",
+    "SetRemark": "set {{.Path}} remark {{.Remark}} successfully",
+    "SetSpecialPermission": "Set {{.Path}} SpecialPermission to {{.Permission}}  successfully",
+    "Upload": "Upload file {{.Path}} successfully"
+  },
+  "extension": {
+    "NotInstalled": "Extension is not installed",
+    "SetStatus": "Set {{.Name}} status to {{.Status}}"
+  },
+  "firewalld": {
+    "AllowPing": "Allow ping successfully",
+    "BatchCreateForwardRule": "Batch create forward rule successfully",
+    "BatchCreateIPRule": "Batch create IP rule successfully",
+    "BatchCreatePortRule": "Batch create port rule successfully",
+    "BatchDeleteForwardRule": "Batch delete forward rule successfully",
+    "BatchDeleteIPRule": "Batch delete IP rule successfully",
+    "BatchDeletePortRule": "Batch delete port rule successfully",
+    "Close": "Close firewall successfully",
+    "DenyPing": "Deny ping successfully",
+    "ForwardRuleAlreadyExists": "Forward rule already exists",
+    "IPRuleAlreadyExists": "IP rule already exists",
+    "NotInstalled": "Linux firewall is not installed(firewalld ufw iptables)",
+    "Open": "Open firewall successfully",
+    "SourcePortAlreadyExists": "Source port {{.Port}} already exists",
+    "UpdateForwardRule": "Update forward rule successfully",
+    "UpdateIPRule": "Update IP rule successfully",
+    "UpdatePortRule": "Update port rule successfully"
+  },
+  "host": {
+    "AddHost": "Add host {{.Name}} successfully",
+    "AddHostCategory": "Add host category {{.Name}} successfully",
+    "AddShortcutCommand": "Add ShortcutCommand {{.Name}} successfully",
+    "ConnectTerminal": "connect host {{.Name}} terminal",
+    "DeleteHost": "Delete host {{.Name}} successfully",
+    "DeleteHostCategory": "delete host category ID:{{.ID}} successfully",
+    "DeleteShortcutCommand": "Delete ShortcutCommand {{.Name}} successfully",
+    "EditHostCategory": "edit host category {{.Name}} successfully",
+    "EditShortcutCommand": "Edit ShortcutCommand {{.Name}} successfully"
+  },
+  "linux_tools": {
+    "AddHosts": "Add Hosts {{.Hosts}} successfully",
+    "RecoverDnsConfig": "Recover DnsConfig successfully",
+    "RemoveHosts": "Remove Hosts {{.Hosts}} successfully",
+    "SaveDnsConfig": "Save DnsConfig successfully",
+    "SetTimeZone": "Set TimeZone {{.MainZone}} {{.SubZone}} successfully",
+    "SyncDate": "Sync Date successfully"
+  },
+  "log_audit": {
+    "ClearPanelOperationLog": "Clear panel operation log successfully",
+    "MysqlOperationLog": "MySQL operation log",
+    "PanelRouterLog": "Panel routing log",
+    "PanelUpdateDebugLog": "Panel update, debug log",
+    "ProjectRunLog": "Project running log",
+    "QueueTaskLog": "Queue task log",
+    "SSLCertificateApplicationLog": "SSL certificate application log",
+    "dockerComposeLog": "docker compose log"
+  },
+  "monitor": {
+    "Clear": "Clear system monitor log success",
+    "SaveConfig": "Save system monitor config success",
+    "SaveEventConfig": "Save system monitor event config success"
+  },
+  "nginx": {
+    "SavePerformanceConfig": "Save nginx PerformanceConfig successfully"
+  },
+  "nodejs": {
+    "OperationNodeModules": " operation:{{.Operation}} modules:{{.Modules}} version:{{.Version}} successfully"
+  },
+  "notify": {
+    "Add": "Add notify {{.Name}} successfully",
+    "Debug": "Debug notify",
+    "Delete": "Delete notify ID:{{.ID}} successfully",
+    "Edit": "Edit notify {{.Name}} successfully",
+    "Info": "Info notify",
+    "Success": "Success notify",
+    "Warning": "Warning notify"
+  },
+  "panel": {
+    "OperatePanel": "Operate panel Action:{{.Action}} successfully",
+    "OperateServer": "Operate server Action:{{.Action}} successfully",
+    "Update": "Start Update panel"
+  },
+  "php": {
+    "SetCmdVersion": "set php cmd version {{.Version}} successfully"
+  },
+  "phpmyadmin": {
+    "SetConfig": "set phpmyadmin config php_version:{{.Version}} port:{{.Port}} successfully"
+  },
+  "project": {
+    "AddDomains": "Add project {{.Name}} domains[{{.Count}}]",
+    "AlwaysUseHttps": "Set project {{.Name}} always use https successfully",
+    "BatchDeleteAccessRuleConfig": "Batch delete project {{.Name}} access rule successfully",
+    "BatchDeleteRedirect": "Batch delete project {{.Name}} redirect successfully",
+    "BatchDeleteReverseProxyConfig": "Batch delete project {{.Name}} reverse proxy successfully",
+    "BatchEditRedirect": "Batch edit project {{.Name}} redirect successfully",
+    "BatchEditReverseProxyConfig": "Batch edit project {{.Name}} reverse proxy successfully",
+    "CategoryExists": "Project Category {{.Name}} already exists",
+    "CloseAntiLeech": "Close project {{.Name}} anti-leech successfully",
+    "CloseSSL": "Close project {{.Name}} ssl successfully",
+    "CreateAccessRuleConfig": "Create project {{.Name}} access rule successfully",
+    "CreateAntiLeechConfig": "Create project {{.Name}} anti-leech successfully",
+    "CreateCategory": "Create project category {{.Name}} successfully",
+    "CreateRedirect": "Create project {{.Name}} redirect successfully",
+    "CreateReverseProxyConfig": "Create project {{.Name}} reverse proxy successfully",
+    "DeleteDomains": "Delete project {{.Name}} domains[{{.Count}}]",
+    "DomainNameHasExisted": "Domain {{.Domain}} name has existed",
+    "DomainNameIsIllegal": "Domain {{.Domain}} is illegal",
+    "EditAccessRuleConfig": "Edit project {{.Name}} access rule successfully",
+    "EditCategory": "Edit project category {{.Name}} successfully",
+    "ProjectNameAlreadyExists ": "Project name {{.Name}} already exists",
+    "SSLIsNotExists": "SSL {{.Name}} certificate does not exist",
+    "SaveDefaultIndex": "Save project {{.Name}} default index successfully",
+    "SetPs": "Set project {{.Name}} ps {{.Ps}} successfully",
+    "SetSSL": "Set project {{.Name}} ssl successfully"
+  },
+  "project_general": {
+    "Create": "Create general project {{.Name}} successfully",
+    "Delete": "Delete general project {{.Name}} successfully",
+    "SaveConfig": "Save general project {{.Name}} config successfully",
+    "SetStatus": "Set general project {{.Name}} status to {{.Status}} successfully"
+  },
+  "project_web": {
+    "Create": "Create web project {{.Name}} successfully",
+    "Delete": "Delete web project {{.Name}} successfully",
+    "SetExpireTime": "Set web project {{.Name}} ExpireTime to {{.ExpireTime}} successfully",
+    "SetPath": "Set web project {{.Name}} Path to {{.Path}} successfully",
+    "SetRunPath": "Set web project {{.Name}} RunPath to {{.RunPath}} successfully",
+    "SetStatus": "Set web project {{.Name}} status to {{.Status}} successfully",
+    "SetUserIni": "Set web project {{.Name}} UserIni status {{.Status}} successfully",
+    "SwitchUsingPHPVersion": "Switch web project {{.Name}} using php version to {{.Version}} successfully"
+  },
+  "queuetask": {
+    "ClearCompletedTasks": "Clear completed tasks successfully",
+    "Delete": "Delete queuetask {{.Name}} successfully",
+    "Install": "Install {{.Name}} has been added to the queue task",
+    "InstallingOrWaiting": "{{.Name}} version is installing or in queue",
+    "Uninstall": "Uninstall {{.Name}} has been added to the queue task",
+    "UninstallingOrWaiting": "{{.Name}} version is uninstalling or in queue"
+  },
+  "recyclebin": {
+    "Clear": "Clear recycle bin successfully",
+    "Delete": "Delete recovery file {{.Name}} successfully",
+    "Recovery": "Recovery {{.Path}} successfully",
+    "SetStatus": "Set the status of the RecycleBin to {{.Status}} successfully"
+  },
+  "redis": {
+    "MustSetPassword": "Redis must set password to listen to public network ip",
+    "PasswordFormatError": "Redis password cannot contain "
+  },
+  "settings": {
+    "ChangeUser": "Change panel userName {{.User}} successfully",
+    "SetBasicAuth": "Set BasicAuth {{.Status}} successfully",
+    "SetEntrance": "Set panel entrance {{.Entrance}} successfully",
+    "SetEntranceErrorCodeR": "Set panel entrance error code {{.ErrorCode}} successfully",
+    "SetPanelApi": "Set panel api status {{.Status}} successfully",
+    "SetPanelIP": "Set panel ip {{.IP}} successfully",
+    "SetPanelName": "Set panel name {{.Name}} successfully",
+    "SetPanelPort": "Set panel port {{.Port}} successfully"
+  },
+  "ssh_manage": {
+    "OperatePasswordLogin": "Operate Password Login Status {{.Status}} successfully",
+    "OperateSSHKeyLogin": "Operate SSH KeyLogin Status {{.Status}} KeyType:{{.KeyType}} successfully",
+    "SetStatus": "Set ssh status {{.Status}} successfully"
+  },
+  "ssl": {
+    "ApplyCertificate": "Apply certificate {{.Domains}} ,LogPath: {{.LogPath}}",
+    "CreateAcmeAccount": "Create acme account {{.Name}} successfully",
+    "CreateDnsAccount": "Create dns account {{.Name}} successfully",
+    "EditDnsAccount": "Edit dns account {{.Name}} successfully"
+  },
+  "storage": {
+    "Add": "Add storage {{.Name}} successfully",
+    "Edit": "Edit storage {{.Name}} successfully"
+  },
+  "task_manager": {
+    "DeleteLinuxUser": "Delete linux user {{.Name}} successfully",
+    "DeleteService": "Delete service {{.Name}} successfully",
+    "KillProcess": "Kill process {{.PID}} Force:{{.Force}} successfully",
+    "SetRunLevel": "Set service {{.Name}} runlevel {{.RunLevel}} successfully",
+    "SystemctlManagedServiceCannotSetStatusOfOtherRunlevel": "Systemctl managed service cannot set status of other runlevel"
+  },
+  "tips": {
+    "AddSuccess": "Add successfully",
+    "AddedToQueueTask": "Added to queue task",
+    "BackupSuccess": "Backup successfully",
+    "ClearSuccess": "Clear successfully",
+    "CloseSuccess": "Close successfully",
+    "CompressSuccess": "Compress successfully",
+    "ConnectSuccess": "Connect successfully",
+    "CopySuccess": "Copy successfully",
+    "CreateSuccess": "Create successfully",
+    "DecompressSuccess": "Decompress successfully",
+    "DeleteSuccess": "Delete successfully",
+    "EditSuccess": "Edit successfully",
+    "ExecuSuccess": "Execute successfully",
+    "ExportSuccess": "Export successfully",
+    "ImportSuccess": "Import successfully",
+    "LoginSuccess": "Login successfully",
+    "LogoutSuccess": "Logout successfully",
+    "MoveSuccess": "Move successfully",
+    "OpenSuccess": "Open successfully",
+    "OperateSuccess": "Operate successfully",
+    "RecoverySuccess": "Recovery successfully",
+    "RenameSuccess": "Rename successfully",
+    "SaveSuccess": "Save successfully",
+    "SendSuccess": "Send successfully",
+    "SetStatusSuccess": "Set status successfully",
+    "SetSuccess": "Set successfully",
+    "SwitchSuccess": "Switch successfully",
+    "SyncSuccess": "Sync successfully",
+    "TestSuccess": "Test successfully",
+    "UploadSuccess": "Upload successfully",
+    "updateSuccess": "Update successfully"
+  },
+  "ttwaf": {
+    "AddIpBlackList": "Add IP BlackList ipv4:{{.Ipv4}} ipv6:{{.Ipv6}} successfully",
+    "AllowIP": "Allow IP {{.IPS}} successfully",
+    "GlobalSet": "Global Set successfully",
+    "SaveConfig": "Save Config successfully",
+    "SaveProjectConfig": "Save Project Config successfully",
+    "SaveRegRule": "Save RegRule successfully"
+  },
+  "user": {
+    "TooManyLoginError": "Too many login errors, please try again after one hour",
+    "UsernameOrPasswordError": "Username or password error, you can try {{.Count}} times",
+    "administratorDoesNotExist": "administrator does not exist"
+  }
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "name": "tencentcloud",
+    "title": "腾讯云DNS",
+    "description": "腾讯云DNS",
+    "help": "腾讯云DNS",
+    "form": [
+      {
+        "key": "secret_id",
+        "name": "secret_id",
+        "value": ""
+      },
+      {
+        "key": "secret_key",
+        "name": "secret_key",
+        "value": ""
+      },
+      {
+        "key": "region",
+        "name": "region",
+        "value": ""
+      },
+      {
+        "key": "session_token",
+        "name": "session_token",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "alidns",
+    "title": "阿里云DNS",
+    "description": "阿里云DNS",
+    "help": "阿里云DNS",
+    "form": [
+      {
+        "key": "api_key",
+        "name": "api_key",
+        "value": ""
+      },
+      {
+        "key": "secret_key",
+        "name": "secret_key",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "name": "cloudflare",
+    "title": "Cloudflare",
+    "description": "Cloudflare",
+    "help": "Cloudflare",
+    "form": [
+      {
+        "key": "auth_token",
+        "name": "auth_token",
+        "value": ""
+      }
+    ]
+  }
+]

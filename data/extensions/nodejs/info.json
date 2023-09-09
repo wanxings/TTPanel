@@ -1,0 +1,17 @@
+
+{
+  "description": {
+    "name": "nodejs",
+    "title": "NodeJs管理",
+    "title_en": "nodejs manage",
+    "website":"https://nodejs.org/",
+    "ps": "安装、卸载、配置node.js版本",
+    "ps_en": "Install, uninstall, configure node.js version",
+    "version_shell": "",
+    "server_path": "",
+    "init_shell": "",
+    "mutex": "",
+    "dependent": ""
+  },
+  "versions": []
+}

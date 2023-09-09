@@ -1,0 +1,13 @@
+version: '3'
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:${SERVER_VERSION}
+    restart: always
+    networks:
+      - tt_docker
+    volumes:
+      - ./data:/app/data
+    ports:
+      - ${HTTP_PORT}:3001
+networks:
+  tt_docker:

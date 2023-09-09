@@ -1,0 +1,55 @@
+logger:
+    file_ext: .log
+    router_log: true
+    router_log_params: true
+    log_level: error # debug, info, warn, error, fatal,生产环境尽量不要使用warn下的级别，会产生较多的日志
+    root_path: /www/panel/data/logs
+sqlite:
+    log_level: error # debug, info, warn, error, fatal,生产环境尽量不要使用warn下的级别，会产生较多的日志
+    panel_path: /www/panel/data/database/panel.db
+    ttwaf_path: /www/server/ttwaf/waf_db/waf.db
+system:
+    panel_ip: 127.0.0.1
+    panel_name: TTPanel
+    pre_release_version: stable
+    panel_port: 8888
+    domain: https://ttpanel.org
+    entrance: /TTPanel
+    entrance_error_code: 200
+    jwt_expire: 604800
+    jwt_issuer: wanxing
+    jwt_secret: TTPanel
+    plugin_path: ./data/plugins
+    panel_path: /www/panel
+    server_path: /www/server
+    www_log_path: /www/wwwlogs
+    run_mode: release #release debug,生产环境切记不能使用debug，debug模式下不会校验入口
+    session_secret: TTPanel
+    session_expire: 604800
+    mysql_root_password: ''
+    language: zh-Hans
+    auto_check_update: true
+    default_project_directory: /www/wwwroot
+    default_backup_directory: /www/backup
+    cloud_nodes:
+        - https://download.ttpanel.org
+    recycle_bin:
+        explorer_status: true
+        database_status: true
+        directory: /www/recycle_bin
+    file_history:
+        status: true
+        count: 100
+    basic_auth:
+        status: false
+        username: admin
+        password: admin
+    panel_api:
+        status: false
+        key: TTPanel
+        whitelist:
+            - 127.0.0.1
+monitor:
+    status: true
+    save_day: 7
+

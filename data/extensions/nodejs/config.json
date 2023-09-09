@@ -1,0 +1,24 @@
+{
+  "registry_sources": {
+    "list": {
+      "npmjs": "https://registry.npmjs.org",
+      "taobao": "https://registry.npm.taobao.org",
+      "cnpmjs": "https://r.cnpmjs.org"
+    },
+    "use": "npmjs"
+  },
+  "download_url": {
+    "list":{
+      "nodejs": "https://nodejs.org/dist",
+      "npmmirror": "https://cdn.npmmirror.com/binaries/node"
+    },
+    "use": "nodejs"
+  },
+  "version_url": {
+    "list": [
+      "https://nodejs.org/dist/index.json",
+      "https://cdn.npmmirror.com/binaries/node/index.json"
+    ],
+    "use": "https://nodejs.org/dist/index.json"
+  }
+}

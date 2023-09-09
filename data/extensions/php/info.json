@@ -1,0 +1,302 @@
+[
+  {
+    "description": {
+      "name": "php-5.3",
+      "title": "php-5.3",
+      "title_en": "php-5.3",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/53/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php5.3",
+        "version": "5.3",
+        "s_version": "php-fpm",
+        "m_version": "53",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-5.4",
+      "title": "php-5.4",
+      "title_en": "php-5.4",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/54/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php5.4",
+        "version": "5.4",
+        "s_version": "php-fpm",
+        "m_version": "54",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-5.5",
+      "title": "php-5.5",
+      "title_en": "php-5.5",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/55/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php5.5",
+        "version": "5.5",
+        "s_version": "php-fpm",
+        "m_version": "55",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-5.6",
+      "title": "php-5.6",
+      "title_en": "php-5.6",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/56/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php5.6",
+        "version": "5.6",
+        "s_version": "php-fpm",
+        "m_version": "56",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-7.0",
+      "title": "php-7.0",
+      "title_en": "php-7.0",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/70/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php7.0",
+        "version": "7.0",
+        "s_version": "php-fpm",
+        "m_version": "70",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-7.1",
+      "title": "php-7.1",
+      "title_en": "php-7.1",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/71/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php7.1",
+        "version": "7.1",
+        "s_version": "php-fpm",
+        "m_version": "71",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-7.2",
+      "title": "php-7.2",
+      "title_en": "php-7.2",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/72/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php7.2",
+        "version": "7.2",
+        "s_version": "php-fpm",
+        "m_version": "72",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-7.3",
+      "title": "php-7.3",
+      "title_en": "php-7.3",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/73/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php7.3",
+        "version": "7.3",
+        "s_version": "php-fpm",
+        "m_version": "73",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-7.4",
+      "title": "php-7.4",
+      "title_en": "php-7.4",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/74/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php7.4",
+        "version": "7.4",
+        "s_version": "php-fpm",
+        "m_version": "74",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-8.0",
+      "title": "php-8.0",
+      "title_en": "php-8.0",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/80/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php8.0",
+        "version": "8.0",
+        "s_version": "php-fpm",
+        "m_version": "80",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-8.1",
+      "title": "php-8.1",
+      "title_en": "php-8.1",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/81/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php8.1",
+        "version": "8.1",
+        "s_version": "php-fpm",
+        "m_version": "81",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  },
+  {
+    "description": {
+      "name": "php-8.2",
+      "title": "php-8.2",
+      "title_en": "php-8.2",
+      "website":"https://www.php.net/",
+      "ps": "php是世界上最好的编程语言",
+      "ps_en": "php is the best programming language in the world",
+      "version_shell": "/www/server/php/m_version/bin/php -v|grep version|awk '{print $2}'|cut -f2 -d'.'|cut -f1 -d'-'",
+      "server_path": "/www/server/php/82/sbin/php-fpm",
+      "init_shell": "",
+      "mutex": "",
+      "dependent": ""
+    },
+    "versions": [
+      {
+        "name": "php8.2",
+        "version": "8.2",
+        "s_version": "php-fpm",
+        "m_version": "82",
+        "mem_limit": 256,
+        "cpu_limit": 1
+      }
+    ]
+  }
+]

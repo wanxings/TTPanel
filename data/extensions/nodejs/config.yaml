@@ -1,0 +1,7 @@
+registry_sources:
+  list:
+    npmjs: "https://registry.npmjs.org"
+    taobao: "https://registry.npm.taobao.org"
+    cnpmjs: "https://r.cnpmjs.org"
+  use: "npmjs"
+version_url: "https://nodejs.org/dist/index.json"

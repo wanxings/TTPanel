@@ -1,0 +1,329 @@
+{
+  "IPFormatError": "IP {{.IP}} 格式错误",
+  "PortFormatError": "端口 {{.Port}} 格式错误",
+  "PortIsIllegalOrCommon": "端口 {{.Port}} 不合法或为常见端口",
+  "PortOccupied": "端口 {{.Port}} 已被占用",
+  "backup": {
+    "database": "成功备份数据库 [{{.Name}}]",
+    "dir": "成功备份目录 [{{.Name}}]",
+    "project": "成功备份项目 [{{.Name}}]"
+  },
+  "cron_task": {
+    "ClearLog": "成功清除定时任务 {{.Name}} 日志",
+    "Create": "成功创建定时任务 {{.Name}}",
+    "Delete": "成功删除定时任务 {{.Name}}",
+    "Edit": "成功编辑定时任务 {{.Name}}",
+    "Execute": "成功执行定时任务 {{.Name}}",
+    "SetStatus": "成功将定时任务 {{.Name}} 状态设置为 {{.Status}}"
+  },
+  "database": {
+    "mysql": {
+      "ChangeUserPassword": "成功修改 MySQL 数据库用户 {{.User}} 密码",
+      "Create": "成功创建数据库 {{.Name}}",
+      "DatabaseAlreadyExists": "数据库已经存在，同步 MySQL 数据库到服务器",
+      "DatabaseCharsetError": "数据库字符集错误",
+      "Delete": "成功删除 MySQL 数据库 {{.Name}}",
+      "GetRootPassword": "成功获取 MySQL root 密码",
+      "ImportDatabase": "成功导入 MySQL 数据库 {{.Name}}",
+      "NameAndUserNameIsIllegal": "数据库名称和用户名只能包含字母、数字和下划线",
+      "SavePerformanceConfig": "成功保存 MySQL 性能配置",
+      "SetDatabaseUserAccess": "成功设置 MySQL 数据库用户 {{.User}} 的访问权限为 {{.Permission}}",
+      "SetRootPassword": "成功设置 MySQL root 密码",
+      "SyncDatabaseFromServer": "成功从服务器同步数据库",
+      "SyncDatabaseToServer": "成功同步 MySQL 数据库到服务器"
+    }
+  },
+  "docker": {
+    "app": {
+      "DeployApp": "成功部署 Docker 应用 {{.Name}}",
+      "UpdateAppList": "成功更新 Docker 应用列表"
+    },
+    "compose": {
+      "Create": "成功创建 Docker 组合，日志路径：{{.LogPath}}",
+      "Delete": "成功删除 Docker 组合 {{.Name}}",
+      "Operate": "成功操作组合，名称：{{.Name}}，动作：{{.Action}}，服务：{{.Service}}",
+      "SaveConfig": "成功保存 Docker 应用组合配置，路径：{{.ComposePath}}"
+    },
+    "compose_template": {
+      "Create": "成功创建组合模板 {{.Name}}",
+      "Delete": "成功删除组合模板 {{.Name}}",
+      "Edit": "成功编辑组合模板，ID：{{.ID}}，名称：{{.Name}}",
+      "PullImage": "拉取组合模板镜像，ID：{{.ID}}，日志路径：{{.LogPath}}"
+    },
+    "container": {
+      "ConnectSSH": "成功连接到 Docker 容器 SSH，容器 ID：{{.ContainerId}}，用户：{{.User}}，命令：{{.Command}}",
+      "CpuExceed": "CPU 不能大于服务器的 CPU，已将 CPU 设置为：[{{.Set}}]，服务器 CPU 为：[{{.Get}}]",
+      "Create": "成功创建 Docker 容器 {{.Name}}",
+      "MemoryExceed": "内存不能大于服务器内存，已将内存设置为：[{{.Set}}]，服务器内存为：[{{.Get}}]",
+      "Operate": "成功操作 Docker 容器 {{.Name}}，操作：{{.Action}}"
+    },
+    "image": {
+      "Build": "成功构建 Docker 镜像 {{.Name}}，日志路径：{{.LogPath}}",
+      "Delete": "成功删除镜像，镜像 ID：{{.ID}}",
+      "Export": "成功导出镜像，镜像 ID：{{.ID}}，保存路径：{{SavePath}}",
+      "Import": "成功导入本地镜像文件 {{.Path}}",
+      "Pull": "成功拉取 Docker 镜像 {{.Name}}，日志路径：{{.LogPath}}",
+      "Push": "成功推送 Docker 镜像，镜像 ID：{{.ID}}，日志路径：{{.LogPath}}"
+    },
+    "networking": {
+      "Create": "成功创建 Docker 网络 {{.Name}}",
+      "Delete": "成功删除 Docker 网络 {{.ID}}"
+    },
+    "repository": {
+      "Add": "成功添加仓库 {{.Name}}",
+      "Delete": "成功删除仓库 {{.Name}}",
+      "Edit": "成功编辑仓库 {{.Name}}",
+      "LoginError": "登录仓库失败：{{.Err}}",
+      "NameExist": "仓库名 {{.Name}} 已存在"
+    },
+    "volume": {
+      "Create": "成功创建 Docker 卷 {{.Name}}",
+      "Delete": "成功删除 Docker 卷 {{.Name}}"
+    }
+  },
+  "explorer": {
+    "CannotOperateSensitivePath": "无法操作敏感路径 {{.Path}}",
+    "ClearLogFile": "成功清除日志文件 {{.Path}}",
+    "Compress": "成功压缩 {{.Path}}",
+    "Copy": "成功将目录 {{.InitPath}} 下的 {{.FileList}} 复制到 {{.ToPath}}",
+    "CreateDir": "成功创建目录 {{.Path}}",
+    "CreateDuplicate": "成功创建副本 {{.NewPath}} <- {{.OldPath}}",
+    "CreateFile": "成功创建文件 {{.Path}}",
+    "CreateSymlink": "成功创建符号链接 {{.NewPath}} -> {{.OldPath}}",
+    "Decompress": "成功解压缩 {{.CompressFilePath}} -> {{.DecompressDirPath}}",
+    "Delete": "成功删除 {{.Path}}",
+    "DeleteDownloadExternalLink": "成功删除下载外部链接 {{.ID}}",
+    "GenerateDownloadExternalLink": "成功生成下载外部链接 {{.Path}}",
+    "Move": "成功将目录 {{.InitPath}} 下的 {{.FileList}} 移动到 {{.ToPath}}",
+    "OperateFavorites": "成功操作资源管理器收藏夹，路径：{{.Path}}，操作：{{.Action}}",
+    "RemoteDownload": "成功远程下载文件 {{.Url}} -> {{.Path}}",
+    "Rename": "成功将 {{.OldPath}} 重命名为 {{.NewPath}}",
+    "Save": "成功保存文件 {{.Path}}",
+    "SetPermission": "成功将 {{.Path}} 权限设置为 {{.Permission}}，所有者为 {{.User}}",
+    "SetRemark": "成功设置 {{.Path}} 备注为 {{.Remark}}",
+    "SetSpecialPermission": "成功将 {{.Path}} 特殊权限设置为 {{.Permission}}",
+    "Upload": "成功上传文件 {{.Path}}"
+  },
+  "extension": {
+    "NotInstalled": "扩展未安装",
+    "SetStatus": "将 {{.Name}} 的状态设置为 {{.Status}}"
+  },
+  "firewalld": {
+    "AllowPing": "成功允许 Ping",
+    "BatchCreateForwardRule": "批量创建转发规则成功",
+    "BatchCreateIPRule": "批量创建 IP 规则成功",
+    "BatchCreatePortRule": "批量创建端口规则成功",
+    "BatchDeleteForwardRule": "批量删除转发规则成功",
+    "BatchDeleteIPRule": "批量删除 IP 规则成功",
+    "BatchDeletePortRule": "批量删除端口规则成功",
+    "Close": "成功关闭防火墙",
+    "DenyPing": "成功禁止 Ping",
+    "ForwardRuleAlreadyExists": "转发规则已存在",
+    "IPRuleAlreadyExists": "IP 规则已存在",
+    "NotInstalled": "未安装 Linux 防火墙（firewalld、ufw、iptables）",
+    "Open": "成功开启防火墙",
+    "SourcePortAlreadyExists": "源端口 {{.Port}} 已存在",
+    "UpdateForwardRule": "更新转发规则成功",
+    "UpdateIPRule": "更新 IP 规则成功",
+    "UpdatePortRule": "更新端口规则成功"
+  },
+  "host": {
+    "AddHost": "成功添加主机 {{.Name}}",
+    "AddHostCategory": "成功添加主机分类 {{.Name}}",
+    "AddShortcutCommand": "成功添加快捷命令 {{.Name}}",
+    "ConnectTerminal": "连接主机 {{.Name}} 终端",
+    "DeleteHost": "成功删除主机 {{.Name}}",
+    "DeleteHostCategory": "成功删除主机分类 ID：{{.ID}}",
+    "DeleteShortcutCommand": "成功删除快捷命令 {{.Name}}",
+    "EditHostCategory": "成功编辑主机分类 {{.Name}}",
+    "EditShortcutCommand": "成功编辑快捷命令 {{.Name}}"
+  },
+  "linux_tools": {
+    "AddHosts": "成功添加 Hosts {{.Hosts}}",
+    "RecoverDnsConfig": "成功恢复 DNS 配置",
+    "RemoveHosts": "成功移除 Hosts {{.Hosts}}",
+    "SaveDnsConfig": "成功保存 DNS 配置",
+    "SetTimeZone": "成功设置时区为 {{.MainZone}} {{.SubZone}}",
+    "SyncDate": "成功同步时间"
+  },
+  "log_audit": {
+    "ClearPanelOperationLog": "成功清除面板操作日志",
+    "MysqlOperationLog": "MySQL导入操作等日志",
+    "PanelRouterLog": "面板路由日志",
+    "PanelUpdateDebugLog": "面板更新、调试日志",
+    "ProjectRunLog": "项目运行日志",
+    "QueueTaskLog": "队列任务日志",
+    "SSLCertificateApplicationLog": "SSL证书申请日志",
+    "dockerComposeLog": "docker编排日志"
+  },
+  "monitor": {
+    "Clear": "成功清除系统监控日志",
+    "SaveConfig": "成功保存系统监控配置",
+    "SaveEventConfig": "成功保存系统监控事件配置"
+  },
+  "nginx": {
+    "SavePerformanceConfig": "成功保存 Nginx 性能配置"
+  },
+  "nodejs": {
+    "OperationNodeModules": "操作：{{.Operation}}，模块：{{.Modules}}，版本：{{.Version}}，成功"
+  },
+  "notify": {
+    "Add": "成功添加通知 {{.Name}}",
+    "Debug": "调试通知",
+    "Delete": "成功删除通知 ID:{{.ID}}",
+    "Edit": "成功编辑通知 {{.Name}}",
+    "Info": "信息通知",
+    "Success": "成功通知",
+    "Warning": "警告通知"
+  },
+  "panel": {
+    "OperatePanel": "操作面板 动作：{{.Action}} 执行成功",
+    "OperateServer": "操作服务器 动作：{{.Action}} 执行成功",
+    "Update": "开始更新面板"
+  },
+  "php": {
+    "SetCmdVersion": "成功设置 PHP 命令版本为 {{.Version}}"
+  },
+  "phpmyadmin": {
+    "SetConfig": "成功设置 phpMyAdmin 配置，PHP 版本：{{.Version}}，端口：{{.Port}}"
+  },
+  "project": {
+    "AddDomains": "添加项目 {{.Name}} 域名[{{.Count}}]",
+    "AlwaysUseHttps": "成功设置项目 {{.Name}} 强制使用 https",
+    "BatchDeleteAccessRuleConfig": "成功批量删除项目 {{.Name}} 访问规则配置",
+    "BatchDeleteRedirect": "成功批量删除项目 {{.Name}} 重定向",
+    "BatchDeleteReverseProxyConfig": "成功批量删除项目 {{.Name}} 反向代理配置",
+    "BatchEditRedirect": "成功批量编辑项目 {{.Name}} 重定向",
+    "BatchEditReverseProxyConfig": "成功批量编辑项目 {{.Name}} 反向代理配置",
+    "CategoryExists": "项目分类 {{.Name}} 已存在",
+    "CloseAntiLeech": "成功关闭项目 {{.Name}} 防盗链",
+    "CloseSSL": "成功关闭项目 {{.Name}} ssl",
+    "CreateAccessRuleConfig": "成功创建项目 {{.Name}} 访问规则配置",
+    "CreateAntiLeechConfig": "成功创建项目 {{.Name}} 防盗链配置",
+    "CreateCategory": "成功创建项目分类 {{.Name}}",
+    "CreateRedirect": "成功创建项目 {{.Name}} 重定向",
+    "CreateReverseProxyConfig": "成功创建项目 {{.Name}} 反向代理配置",
+    "DeleteDomains": "删除项目 {{.Name}} 域名[{{.Count}}]",
+    "DomainNameHasExisted": "域名 {{.Domain}} 名称已存在",
+    "DomainNameIsIllegal": "域名 {{.Domain}} 不合法",
+    "EditAccessRuleConfig": "成功编辑项目 {{.Name}} 访问规则配置",
+    "EditCategory": "成功编辑项目分类 {{.Name}}",
+    "ProjectNameAlreadyExists ": "项目名称 {{.Name}} 已存在",
+    "SSLIsNotExists": "SSL {{.Name}} 证书不存在",
+    "SaveDefaultIndex": "保存项目 {{.Name}} 默认索引成功",
+    "SetPs": "成功设置项目 {{.Name}} ps {{.Ps}}",
+    "SetSSL": "成功设置项目 {{.Name}} ssl"
+  },
+  "project_general": {
+    "Create": "成功创建通用项目 {{.Name}}",
+    "Delete": "成功删除通用项目 {{.Name}}",
+    "SaveConfig": "成功保存通用项目 {{.Name}} 配置",
+    "SetStatus": "成功将通用项目 {{.Name}} 状态设置为 {{.Status}}"
+  },
+  "project_web": {
+    "Create": "成功创建 Web 项目 {{.Name}}",
+    "Delete": "成功删除 Web 项目 {{.Name}}",
+    "SetExpireTime": "成功将 Web 项目 {{.Name}} 过期时间设置为 {{.ExpireTime}}",
+    "SetPath": "成功将 Web 项目 {{.Name}} 路径设置为 {{.Path}}",
+    "SetRunPath": "成功将 Web 项目 {{.Name}} 运行路径设置为 {{.RunPath}}",
+    "SetStatus": "成功将 Web 项目 {{.Name}} 状态设置为 {{.Status}}",
+    "SetUserIni": "成功将 Web 项目 {{.Name}} UserIni 状态设置为 {{.Status}}",
+    "SwitchUsingPHPVersion": "成功将 Web 项目 {{.Name}} 使用的 PHP 版本切换至 {{.Version}}"
+  },
+  "queuetask": {
+    "ClearCompletedTasks": "成功清除已完成的任务",
+    "Delete": "成功删除队列任务 {{.Name}}",
+    "Install": "已将安装任务 {{.Name}} 添加到队列",
+    "InstallingOrWaiting": "{{.Name}} 版本正在安装或在队列中等待",
+    "Uninstall": "已将卸载任务 {{.Name}} 添加到队列",
+    "UninstallingOrWaiting": "{{.Name}} 版本正在卸载或在队列中等待"
+  },
+  "recyclebin": {
+    "Clear": "成功清空回收站",
+    "Delete": "成功删除恢复文件 {{.Name}}",
+    "Recovery": "成功恢复 {{.Path}}",
+    "SetStatus": "成功将回收站状态设置为 {{.Status}}"
+  },
+  "redis": {
+    "MustSetPassword": "Redis 必须设置密码才能监听公共网络 IP",
+    "PasswordFormatError": "Redis 密码不能包含特殊符号"
+  },
+  "settings": {
+    "ChangeUser": "成功更改面板用户名为 {{.User}}",
+    "SetBasicAuth": "成功设置 BasicAuth {{.Status}}",
+    "SetEntrance": "成功设置面板入口为 {{.Entrance}}",
+    "SetEntranceErrorCodeR": "成功设置面板入口错误代码为 {{.ErrorCode}}",
+    "SetPanelApi": "成功设置面板 API 状态为 {{.Status}}",
+    "SetPanelIP": "成功设置面板 IP 为 {{.IP}}",
+    "SetPanelName": "成功设置面板名称为 {{.Name}}",
+    "SetPanelPort": "成功设置面板端口为 {{.Port}}"
+  },
+  "ssh_manage": {
+    "OperatePasswordLogin": "成功操作密码登录状态 {{.Status}}",
+    "OperateSSHKeyLogin": "成功操作 SSH 密钥登录状态 {{.Status}} 密钥类型：{{.KeyType}}",
+    "SetStatus": "成功设置 SSH 状态为 {{.Status}}"
+  },
+  "ssl": {
+    "ApplyCertificate": "申请证书 {{.Domains}}，日志路径：{{.LogPath}}",
+    "CreateAcmeAccount": "成功创建 ACME 账户 {{.Name}}",
+    "CreateDnsAccount": "成功创建 DNS 账户 {{.Name}}",
+    "EditDnsAccount": "成功编辑 DNS 账户 {{.Name}}"
+  },
+  "storage": {
+    "Add": "成功添加存储 {{.Name}}",
+    "Edit": "成功编辑存储 {{.Name}}"
+  },
+  "task_manager": {
+    "DeleteLinuxUser": "成功删除 Linux 用户 {{.Name}}",
+    "DeleteService": "成功删除服务 {{.Name}}",
+    "KillProcess": "成功终止进程 {{.PID}} 强制：{{.Force}}",
+    "SetRunLevel": "成功设置服务 {{.Name}} 运行级别为 {{.RunLevel}}",
+    "SystemctlManagedServiceCannotSetStatusOfOtherRunlevel": "Systemctl 管理的服务无法设置其他运行级别的状态"
+  },
+  "tips": {
+    "AddSuccess": "添加成功",
+    "AddedToQueueTask": "已添加到队列任务",
+    "BackupSuccess": "备份成功",
+    "ClearSuccess": "清除成功",
+    "CloseSuccess": "关闭成功",
+    "CompressSuccess": "压缩成功",
+    "ConnectSuccess": "连接成功",
+    "CopySuccess": "复制成功",
+    "CreateSuccess": "创建成功",
+    "DecompressSuccess": "解压成功",
+    "DeleteSuccess": "删除成功",
+    "EditSuccess": "编辑成功",
+    "ExecuSuccess": "执行成功",
+    "ExportSuccess": "导出成功",
+    "ImportSuccess": "导入成功",
+    "LoginSuccess": "登录成功",
+    "LogoutSuccess": "登出成功",
+    "MoveSuccess": "移动成功",
+    "OpenSuccess": "打开成功",
+    "OperateSuccess": "操作成功",
+    "RecoverySuccess": "恢复成功",
+    "RenameSuccess": "重命名成功",
+    "SaveSuccess": "保存成功",
+    "SendSuccess": "发送成功",
+    "SetStatusSuccess": "设置状态成功",
+    "SetSuccess": "设置成功",
+    "SwitchSuccess": "切换成功",
+    "SyncSuccess": "同步成功",
+    "TestSuccess": "测试成功",
+    "UploadSuccess": "上传成功",
+    "updateSuccess": "更新成功"
+  },
+  "ttwaf": {
+    "AddIpBlackList": "成功添加 IP 黑名单 IPv4:{{.Ipv4}} IPv6:{{.Ipv6}}",
+    "AllowIP": "成功允许 IP {{.IPS}}",
+    "GlobalSet": "全局设置成功",
+    "SaveConfig": "成功保存配置",
+    "SaveProjectConfig": "成功保存项目配置",
+    "SaveRegRule": "成功保存正则规则"
+  },
+  "user": {
+    "TooManyLoginError": "登录错误次数过多，请一小时后重试",
+    "UsernameOrPasswordError": "用户名或密码错误，您还有 {{.Count}} 次尝试机会",
+    "administratorDoesNotExist": "管理员不存在"
+  }
+}

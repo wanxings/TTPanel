@@ -1,0 +1,25 @@
+{
+  "description": {
+    "name": "phpmyadmin",
+    "title": "phpMyAdmin",
+    "title_en": "phpMyAdmin",
+    "website":"https://www.phpmyadmin.net/",
+    "ps": "Web端MySQL管理工具",
+    "ps_en": "MySQL management tool",
+    "version_shell": "/www/server/phpmyadmin/version.pl",
+    "server_path": "/www/server/phpmyadmin",
+    "init_shell": "",
+    "mutex": "",
+    "dependent": "mysql,nginx"
+  },
+  "versions": [
+    {
+      "name": "phpmyadmin-5.2.1",
+      "version": "5.2.1",
+      "s_version": "5.2.1",
+      "m_version": "521",
+      "mem_limit": 32,
+      "cpu_limit": 1
+    }
+  ]
+}

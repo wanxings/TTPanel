@@ -1,0 +1,319 @@
+#!/bin/bash
+# chkconfig: 2345 55 25
+# description: tt Cloud Service
+
+### BEGIN INIT INFO
+# Provides:		tt
+# Required-Start:	$all
+# Required-Stop:	$all
+# Default-Start:	2 3 4 5
+# Default-Stop:   0 1 6
+# Short-Description:	start tt
+# Description:       starts the tt
+### END INIT INFO
+
+#判断是否是root用户
+if [ "$(whoami)" != "root" ]; then
+  echo "当前非root用户"
+  echo "The current non-root user"
+  exit 1
+fi
+panel_path=/www/panel
+cd "$panel_path" || exit 1
+log_file=$panel_path/data/logs/panel.log
+
+get_panel_process() {
+  isStart=$(pgrep 'TTPanel' | xargs)
+  arr=$isStart
+}
+restart_service() {
+  is_process=$(lsof -n -P -i:"$port" -sTCP:LISTEN | grep LISTEN | grep -v grep | awk '{print $1}' | sort | uniq | xargs)
+  # shellcheck disable=SC2068
+  for pn in ${is_process[@]}; do
+    if [ "$pn" = "nginx" ]; then
+      /etc/init.d/nginx restart
+    fi
+
+    if [ "$pn" = "httpd" ]; then
+      /etc/init.d/httpd restart
+    fi
+
+    if [ "$pn" = "mysqld" ]; then
+      /etc/init.d/mysqld restart
+    fi
+
+    if [ "$pn" = "superviso" ]; then
+      pkill -9 superviso
+      sleep 0.2
+      supervisord -c /etc/supervisor/supervisord.conf
+    fi
+
+    if [ "$pn" = "pure-ftpd" ]; then
+      /etc/init.d/pure-ftpd restart
+    fi
+
+    if [ "$pn" = "memcached" ]; then
+      /etc/init.d/memcached restart
+    fi
+
+    if [ "$pn" = "sudo" ]; then
+      if [ -f /etc/init.d/redis ]; then
+        /etc/init.d/redis restart
+      fi
+    fi
+
+    if [ "$pn" = "php-fpm" ]; then
+      php_v=(52 53 54 55 56 70 71 72 73 74)
+      for pv in ${php_v[@]}; do
+        if [ -f /etc/init.d/php-fpm-"${pv}" ]; then
+          if [ -f /www/server/php/"${pv}"/sbin/php-fpm ]; then
+            if [ -f /tmp/php-cgi-"${pv}".sock ]; then
+              /etc/init.d/php-fpm-"${pv}" start
+            fi
+            /etc/init.d/php-fpm-"${pv}" restart
+          fi
+        fi
+      done
+    fi
+  done
+
+  is_ports=$(lsof -n -P -i:"$port" | grep LISTEN | grep -v grep | awk '{print $2}' | xargs)
+  if [ "$is_ports" != '' ]; then
+    kill -9 "$is_ports"
+    sleep 1
+  fi
+}
+panel_start() {
+  get_panel_process
+  if [ ! -f "$log_file" ]; then
+    touch "$log_file"
+  fi
+  if [ "$isStart" == '' ]; then
+    echo -e "Starting Panel...\c"
+    printf '\n' >>$log_file
+    $panel_path/TTPanel serve >>$log_file 2>&1 &
+    isStart=""
+    n=0
+    while [[ "$isStart" == "" ]]; do
+      echo -e ".\c"
+      sleep 0.5
+      get_panel_process
+      ((n += 1))
+      if [ "$n" -gt 8 ]; then
+        break
+      fi
+    done
+    if [ "$isStart" == '' ]; then
+      echo -e "\033[31m failed \033[0m"
+      echo '------------------------------------------------------'
+      tail -n 20 $log_file
+      echo '------------------------------------------------------'
+      echo -e "\033[31mError: TTPanel service startup failed.\033[0m"
+    fi
+    echo -e "	\033[32m done\033[0m"
+  else
+    echo "Starting TTPanel... TTPanel (pid $isStart)  already running"
+  fi
+}
+panel_stop() {
+  echo -e "Stopping TTPanel...\c"
+
+  get_panel_process
+  for p in "${arr[@]}"; do
+    kill -9 "$p" &>/dev/null
+  done
+  echo -e "	\033[32m done \033[0m"
+}
+panel_status() {
+  get_panel_process
+  if [ "$isStart" != '' ]; then
+    echo -e "\033[32m TTPanel (pid $isStart) already running\033[0m"
+  else
+    echo -e "\033[31m TTPanel not running\033[0m"
+  fi
+}
+turn_off_system_firewall() {
+  if command -v ufw >/dev/null 2>&1; then
+    echo "UFW detected"
+    sudo ufw disable
+  elif command -v firewall-cmd >/dev/null 2>&1; then
+    echo "Firewalld detected"
+    sudo systemctl stop firewalld
+    sudo systemctl disable firewalld
+  elif command -v iptables >/dev/null 2>&1; then
+    echo "Iptables detected"
+    service iptables stop
+    chkconfig iptables off
+  else
+    echo "No supported firewall detected"
+  fi
+}
+panel_info() {
+  $panel_path/TTPanel tools info
+}
+#重置防火墙规则
+reset_system_firewall_rule() {
+  #  sshPort=$(cat /etc/ssh/sshd_config | grep 'Port ' | awk '{print $2}')
+  if [ -f "/usr/sbin/ufw" ]; then
+    echo y | ufw enable
+    ufw default deny
+    ufw reload
+    #关闭防火墙
+    ufw disable
+  elif [ -f "/etc/init.d/iptables" ]; then
+    /etc/init.d/iptables stop
+    chkconfig iptables off
+    service iptables restart
+  else
+    rm -rf /usr/etc/firewalld/zones
+    rm -rf /etc/firewalld/zones
+    rm -f /etc/firewalld/direct.xml
+    firewall-cmd --set-default-zone=public >/dev/null 2>&1
+    firewall-cmd --reload
+  fi
+}
+Menu() {
+  echo "面板命令行"
+  COLUMNS=2
+  PS3="请输入命令编号："
+  select action in "重启面板" "启动面板" "停止面板" "修改面板用户名" "修改面板密码" "修改面板端口" "修改面板入口" "面板默认信息" "关闭系统防火墙" "开放系统防火墙端口" "关闭BaseAuth认证" "查看版本"; do
+    case $action in
+    "重启面板")
+      panel_stop
+      sleep 6
+      panel_start
+      break
+      ;;
+    "停止面板")
+      panel_stop
+      break
+      ;;
+    "启动面板")
+      panel_start
+      break
+      ;;
+    "修改面板用户名")
+      #提示输入用户名
+      read -r -p "请输入新用户名: " newUser
+      if [ "$newUser" == '' ]; then
+        exit
+      fi
+      $panel_path/TTPanel tools setUser -u "$newUser"
+      break
+      ;;
+    "修改面板密码")
+      #提示输入密码
+      read -r -p "请输入新密码: " newPwd
+      if [ "$newPwd" == '' ]; then
+        exit
+      fi
+      $panel_path/TTPanel tools setPwd -p "$newPwd"
+      break
+      ;;
+    "修改面板入口")
+      read -r -p "请输入新面板入口:" entrance
+
+      if [ -z "$entrance" ]; then
+        exit
+      fi
+      $panel_path/TTPanel tools setEntrance -e "$entrance"
+      break
+      ;;
+    "修改面板端口")
+      while true; do
+        echo "请输入面板端口："
+        read -r port
+
+        if [[ -z $port ]]; then
+          echo "端口号不能为空，请重新输入！"
+        elif ! [[ $port =~ ^[0-9]+$ ]]; then
+          echo "端口号必须是数字，请重新输入！"
+        else
+          echo "您输入的端口号是：$port"
+          break
+        fi
+      done
+      $panel_path/TTPanel tools setPort -p "$port"
+      break
+      ;;
+
+    "关闭系统防火墙")
+      echo "关闭系统防火墙"
+      turn_off_system_firewall
+      break
+      ;;
+    "查看面板默认信息")
+      echo "面板默认信息"
+      panel_info
+      break
+      ;;
+    "关闭BaseAuth认证")
+      echo "关闭BaseAuth认证"
+#      $panel_path/TTPanel tools closeBaseAuth
+      break
+      ;;
+    "查看面板版本")
+      $panel_path/TTPanel tools version
+      break
+      ;;
+    "开放系统防火墙端口")
+      while true; do
+        echo "请输入端口号："
+        read -r port
+
+        if [[ -z $port ]]; then
+          echo "端口号不能为空，请重新输入！"
+        elif ! [[ $port =~ ^[0-9]+$ ]]; then
+          echo "端口号必须是数字，请重新输入！"
+        else
+          echo "您输入的端口号是：$port"
+          break
+        fi
+      done
+      while true; do
+        echo "请输入协议(tcp|udp)："
+        read -r protocol
+
+        if [[ -z $protocol ]]; then
+          echo "协议不能为空，请重新输入！"
+        else
+          echo "您输入的协议是：$protocol"
+          break
+        fi
+      done
+      $panel_path/TTPanel tools openSystemFirewallPort -p "$port" -t "$protocol"
+      break
+      ;;
+    *)
+      echo "取消操作,退出"
+      break
+      ;;
+    esac
+  done
+}
+
+case "$1" in
+'start')
+  panel_start
+  ;;
+'stop')
+  panel_stop
+  ;;
+'restart')
+  panel_stop
+  sleep 4
+  panel_start
+  ;;
+'status')
+  panel_status
+  ;;
+  #'logs')
+  #  error_logs
+  #  ;;
+'default')
+  panel_info
+  ;;
+*)
+  Menu
+  ;;
+esac

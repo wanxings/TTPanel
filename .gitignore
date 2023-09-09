@@ -1,0 +1,5 @@
+/releases/
+/build_debug.sh
+/build.sh
+/go.sum
+/go.mod

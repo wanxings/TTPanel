@@ -1,0 +1,65 @@
+{
+  "cpu": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0,
+    "threshold": 80
+  },
+  "mem": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0,
+    "threshold": 80
+  },
+  "disk_space": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0,
+    "threshold": 80,
+    "mount_point": ["/"]
+  },
+  "disk_inode": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0,
+    "threshold": 80,
+    "mount_point": ["/"]
+  },
+  "login_panel": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0
+  },
+  "ssl_expiration_time": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0,
+    "day": 7
+  },
+  "project_expiration_time": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0,
+    "day": 7
+  },
+  "service_nginx": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0
+  },
+  "service_mysql": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0
+  },
+  "service_redis": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0
+  },
+  "service_docker": {
+    "status": false,
+    "notify_count": 1,
+    "notify_id": 0
+  }
+}

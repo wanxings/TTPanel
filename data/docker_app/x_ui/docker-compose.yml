@@ -1,0 +1,17 @@
+version: '3'
+services:
+  x-ui:
+    image: enwaiax/x-ui:${SERVER_VERSION}
+    restart: unless-stopped
+    ports:
+      - ${ADMIN_PORT}:54321 # 管理面板端口映射
+      - ${USE_PORT}:${USE_PORT}/tcp # 根据需要添加更多或者更换端口
+      - ${USE_PORT}:${USE_PORT}/udp # 根据需要添加更多或者更换端口
+    networks:
+      - tt_docker
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./data/db:/etc/x-ui/
+      - ./data/cert:/root/cert/
+networks:
+  tt_docker:

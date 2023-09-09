@@ -1,0 +1,33 @@
+{
+  "description": {
+    "name": "redis",
+    "title": "Redis",
+    "title_en": "Redis",
+    "website":"https://redis.io/",
+    "ps": "Redis是一个高性能的key-value数据库(PHP连接redis需要安装redis扩展)",
+    "ps_en": "The open source, in-memory data store used by millions of developers as a database, cache, streaming engine, and message broker.",
+    "version_shell": "/www/server/redis/src/redis-server -v|awk '{print $3}'|cut -f2 -d'='",
+    "server_path": "/www/server/redis",
+    "init_shell": "/etc/init.d/redis",
+    "mutex": "",
+    "dependent": ""
+  },
+  "versions": [
+    {
+      "name": "redis-7.0.11",
+      "version": "7.0.11",
+      "s_version": "7.0",
+      "m_version": "70",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    },
+    {
+      "name": "redis-6.2.12",
+      "version": "6.2.12",
+      "s_version": "6.2",
+      "m_version": "62",
+      "mem_limit": 256,
+      "cpu_limit": 1
+    }
+  ]
+}

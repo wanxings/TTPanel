@@ -1,0 +1,329 @@
+{
+  "IPFormatError": "IP {{.IP}} 格式錯誤",
+  "PortFormatError": "端口 {{.Port}} 格式錯誤",
+  "PortIsIllegalOrCommon": "端口 {{.Port}} 不合法或為常見端口",
+  "PortOccupied": "端口 {{.Port}} 已被佔用",
+  "backup": {
+    "database": "成功備份數據庫 [{{.Name}}]",
+    "dir": "成功備份目錄 [{{.Name}}]",
+    "project": "成功備份項目 [{{.Name}}]"
+  },
+  "cron_task": {
+    "ClearLog": "成功清除定時任務 {{.Name}} 日誌",
+    "Create": "成功建立定時任務 {{.Name}}",
+    "Delete": "成功刪除定時任務 {{.Name}}",
+    "Edit": "成功編輯定時任務 {{.Name}}",
+    "Execute": "成功執行定時任務 {{.Name}}",
+    "SetStatus": "成功將定時任務 {{.Name}} 狀態設為 {{.Status}}"
+  },
+  "database": {
+    "mysql": {
+      "ChangeUserPassword": "成功修改 MySQL 資料庫使用者 {{.User}} 密碼",
+      "Create": "成功建立資料庫 {{.Name}}",
+      "DatabaseAlreadyExists": "資料庫已存在，同步 MySQL 資料庫到伺服器",
+      "DatabaseCharsetError": "資料庫字元集錯誤",
+      "Delete": "成功刪除 MySQL 資料庫 {{.Name}}",
+      "GetRootPassword": "成功取得 MySQL root 密碼",
+      "ImportDatabase": "成功匯入 MySQL 資料庫 {{.Name}}",
+      "NameAndUserNameIsIllegal": "資料庫名稱和使用者名稱只能包含字母、數字和底線",
+      "SavePerformanceConfig": "成功儲存 MySQL 效能配置",
+      "SetDatabaseUserAccess": "成功設定 MySQL 資料庫使用者 {{.User}} 的訪問權限為 {{.Permission}}",
+      "SetRootPassword": "成功設定 MySQL root 密碼",
+      "SyncDatabaseFromServer": "成功從伺服器同步資料庫",
+      "SyncDatabaseToServer": "成功同步 MySQL 資料庫到伺服器"
+    }
+  },
+  "docker": {
+    "app": {
+      "DeployApp": "成功部署 Docker 應用程式 {{.Name}}",
+      "UpdateAppList": "成功更新 Docker 應用程式列表"
+    },
+    "compose": {
+      "Create": "成功建立 Docker 組合 {{.Name}}，日誌路徑：{{.LogPath}}",
+      "Delete": "成功刪除 Docker 組合 {{.Name}}",
+      "Operate": "成功操作組合 名稱：{{.Name}} 動作：{{.Action}} 服務：{{.Service}}",
+      "SaveConfig": "成功儲存 Docker 應用程式組合設定於 {{.ComposePath}}"
+    },
+    "compose_template": {
+      "Create": "成功建立組合模板 {{.Name}}",
+      "Delete": "成功刪除組合模板 {{.Name}}",
+      "Edit": "成功編輯組合模板 ID：{{.ID}} 名稱：{{.Name}}",
+      "PullImage": "拉取組合模板影像 ID：{{.ID}}，日誌路徑：{{.LogPath}}"
+    },
+    "container": {
+      "ConnectSSH": "成功連線至 Docker 容器 SSH，容器 ID：{{.ContainerId}}，使用者：{{.User}}，指令：{{.Command}}",
+      "CpuExceed": "CPU 不能大於伺服器的 CPU，已將 CPU 設為：[{{.Set}}]，伺服器 CPU 為：[{{.Get}}]",
+      "Create": "成功建立 Docker 容器 {{.Name}}",
+      "MemoryExceed": "記憶體不能大於伺服器記憶體，已將記憶體設為：[{{.Set}}]，伺服器記憶體為：[{{.Get}}]",
+      "Operate": "成功操作 Docker 容器 {{.Name}}，動作：{{.Action}}"
+    },
+    "image": {
+      "Build": "成功建立 Docker 映像 {{.Name}}，日誌路徑：{{.LogPath}}",
+      "Delete": "成功刪除映像，映像 ID：{{.ID}}",
+      "Export": "成功匯出映像，映像 ID：{{.ID}}，保存路徑：{{SavePath}}",
+      "Import": "成功匯入本地映像檔案 {{.Path}}",
+      "Pull": "成功拉取 Docker 映像 {{.Name}}，日誌路徑：{{.LogPath}}",
+      "Push": "成功推送 Docker 映像，映像 ID：{{.ID}}，日誌路徑：{{.LogPath}}"
+    },
+    "networking": {
+      "Create": "成功建立 Docker 網路 {{.Name}}",
+      "Delete": "成功刪除 Docker 網路 {{.ID}}"
+    },
+    "repository": {
+      "Add": "成功新增儲存庫 {{.Name}}",
+      "Delete": "成功刪除資料庫 {{.Name}}",
+      "Edit": "成功編輯資料庫 {{.Name}}",
+      "LoginError": "登入資料庫失敗：{{.Err}}",
+      "NameExist": "資料庫名稱 {{.Name}} 已存在"
+    },
+    "volume": {
+      "Create": "成功建立 Docker 儲存區 {{.Name}}",
+      "Delete": "成功刪除 Docker 儲存區 {{.Name}}"
+    }
+  },
+  "explorer": {
+    "CannotOperateSensitivePath": "無法操作敏感路徑 {{.Path}}",
+    "ClearLogFile": "成功清除日誌檔案 {{.Path}}",
+    "Compress": "成功壓縮 {{.Path}}",
+    "Copy": "成功將目錄 {{.InitPath}} 下的 {{.FileList}} 複製到 {{.ToPath}}",
+    "CreateDir": "成功建立目錄 {{.Path}}",
+    "CreateDuplicate": "成功建立副本 {{.NewPath}} <- {{.OldPath}}",
+    "CreateFile": "成功建立檔案 {{.Path}}",
+    "CreateSymlink": "成功建立符號連結 {{.NewPath}} -> {{.OldPath}}",
+    "Decompress": "成功解壓縮 {{.CompressFilePath}} -> {{.DecompressDirPath}}",
+    "Delete": "成功刪除 {{.Path}}",
+    "DeleteDownloadExternalLink": "成功刪除下載外部連結 {{.ID}}",
+    "GenerateDownloadExternalLink": "成功生成下載外部連結 {{.Path}}",
+    "Move": "成功將目錄 {{.InitPath}} 下的 {{.FileList}} 移動到 {{.ToPath}}",
+    "OperateFavorites": "成功操作資源管理器收藏夾，路徑：{{.Path}}，操作：{{.Action}}",
+    "RemoteDownload": "成功遠端下載檔案 {{.Url}} -> {{.Path}}",
+    "Rename": "成功將 {{.OldPath}} 重新命名為 {{.NewPath}}",
+    "Save": "成功儲存檔案 {{.Path}}",
+    "SetPermission": "成功將 {{.Path}} 權限設為 {{.Permission}}，擁有者為 {{.User}}",
+    "SetRemark": "成功設定 {{.Path}} 備註為 {{.Remark}}",
+    "SetSpecialPermission": "成功將 {{.Path}} 特殊權限設為 {{.Permission}}",
+    "Upload": "成功上傳檔案 {{.Path}}"
+  },
+  "extension": {
+    "NotInstalled": "擴展未安裝",
+    "SetStatus": "將 {{.Name}} 的狀態設為 {{.Status}}"
+  },
+  "firewalld": {
+    "AllowPing": "成功允許 Ping",
+    "BatchCreateForwardRule": "批次創建轉發規則成功",
+    "BatchCreateIPRule": "批次創建 IP 規則成功",
+    "BatchCreatePortRule": "批次創建端口規則成功",
+    "BatchDeleteForwardRule": "批次刪除轉發規則成功",
+    "BatchDeleteIPRule": "批次刪除 IP 規則成功",
+    "BatchDeletePortRule": "批次刪除端口規則成功",
+    "Close": "成功關閉防火牆",
+    "DenyPing": "成功禁止 Ping",
+    "ForwardRuleAlreadyExists": "轉發規則已存在",
+    "IPRuleAlreadyExists": "IP 規則已存在",
+    "NotInstalled": "未安裝 Linux 防火牆（firewalld、ufw、iptables）",
+    "Open": "成功開啟防火牆",
+    "SourcePortAlreadyExists": "源端口 {{.Port}} 已存在",
+    "UpdateForwardRule": "更新轉發規則成功",
+    "UpdateIPRule": "更新 IP 規則成功",
+    "UpdatePortRule": "更新端口規則成功"
+  },
+  "host": {
+    "AddHost": "成功新增主機 {{.Name}}",
+    "AddHostCategory": "成功新增主機分類 {{.Name}}",
+    "AddShortcutCommand": "成功新增快捷命令 {{.Name}}",
+    "ConnectTerminal": "連接主機 {{.Name}} 終端",
+    "DeleteHost": "成功刪除主機 {{.Name}}",
+    "DeleteHostCategory": "成功刪除主機分類 ID：{{.ID}}",
+    "DeleteShortcutCommand": "成功刪除快捷命令 {{.Name}}",
+    "EditHostCategory": "成功編輯主機分類 {{.Name}}",
+    "EditShortcutCommand": "成功編輯快捷命令 {{.Name}}"
+  },
+  "linux_tools": {
+    "AddHosts": "成功添加 Hosts {{.Hosts}}",
+    "RecoverDnsConfig": "成功恢復 DNS 配置",
+    "RemoveHosts": "成功移除 Hosts {{.Hosts}}",
+    "SaveDnsConfig": "成功保存 DNS 配置",
+    "SetTimeZone": "成功設定時區為 {{.MainZone}} {{.SubZone}}",
+    "SyncDate": "成功同步時間"
+  },
+  "log_audit": {
+    "ClearPanelOperationLog": "成功清除面板操作日誌",
+    "MysqlOperationLog": "MySQL導入操作等日誌",
+    "PanelRouterLog": "面板路由日誌",
+    "PanelUpdateDebugLog": "面板更新、調試日誌",
+    "ProjectRunLog": "項目運行日誌",
+    "QueueTaskLog": "佇列任務日誌",
+    "SSLCertificateApplicationLog": "SSL證書申請日誌",
+    "dockerComposeLog": "docker編排日誌"
+  },
+  "monitor": {
+    "Clear": "成功清除系統監控日誌",
+    "SaveConfig": "成功儲存系統監控配置",
+    "SaveEventConfig": "成功保存系統監控事件配置"
+  },
+  "nginx": {
+    "SavePerformanceConfig": "成功儲存 Nginx 效能配置"
+  },
+  "nodejs": {
+    "OperationNodeModules": "操作：{{.Operation}}，模組：{{.Modules}}，版本：{{.Version}}，成功"
+  },
+  "notify": {
+    "Add": "成功新增通知 {{.Name}}",
+    "Debug": "偵錯通知",
+    "Delete": "成功刪除通知 ID:{{.ID}}",
+    "Edit": "成功編輯通知 {{.Name}}",
+    "Info": "資訊通知",
+    "Success": "成功通知",
+    "Warning": "警告通知"
+  },
+  "panel": {
+    "OperatePanel": "操作面板 動作：{{.Action}} 執行成功",
+    "OperateServer": "操作伺服器 動作：{{.Action}} 執行成功",
+    "Update": "開始更新面板"
+  },
+  "php": {
+    "SetCmdVersion": "成功設定 PHP 命令版本為 {{.Version}}"
+  },
+  "phpmyadmin": {
+    "SetConfig": "成功設定 phpMyAdmin 配置，PHP 版本：{{.Version}}，端口：{{.Port}}"
+  },
+  "project": {
+    "AddDomains": "新增專案 {{.Name}} 域名[{{.Count}}]",
+    "AlwaysUseHttps": "成功設定專案 {{.Name}} 強制使用 https",
+    "BatchDeleteAccessRuleConfig": "成功批次刪除專案 {{.Name}} 訪問規則配置",
+    "BatchDeleteRedirect": "成功批次刪除專案 {{.Name}} 重新導向",
+    "BatchDeleteReverseProxyConfig": "成功批次刪除專案 {{.Name}} 反向代理配置",
+    "BatchEditRedirect": "成功批次編輯專案 {{.Name}} 重新導向",
+    "BatchEditReverseProxyConfig": "成功批次編輯專案 {{.Name}} 反向代理配置",
+    "CategoryExists": "專案分類 {{.Name}} 已存在",
+    "CloseAntiLeech": "成功關閉專案 {{.Name}} 防盜鏈",
+    "CloseSSL": "成功關閉專案 {{.Name}} ssl",
+    "CreateAccessRuleConfig": "成功建立專案 {{.Name}} 訪問規則配置",
+    "CreateAntiLeechConfig": "成功建立專案 {{.Name}} 防盜鏈配置",
+    "CreateCategory": "成功建立專案分類 {{.Name}}",
+    "CreateRedirect": "成功建立專案 {{.Name}} 重新導向",
+    "CreateReverseProxyConfig": "成功建立專案 {{.Name}} 反向代理配置",
+    "DeleteDomains": "刪除專案 {{.Name}} 域名[{{.Count}}]",
+    "DomainNameHasExisted": "域名 {{.Domain}} 名稱已存在",
+    "DomainNameIsIllegal": "域名 {{.Domain}} 不合法",
+    "EditAccessRuleConfig": "成功編輯專案 {{.Name}} 訪問規則配置",
+    "EditCategory": "成功編輯專案分類 {{.Name}}",
+    "ProjectNameAlreadyExists ": "專案名稱 {{.Name}} 已存在",
+    "SSLIsNotExists": "SSL {{.Name}} 證書不存在",
+    "SaveDefaultIndex": "儲存專案 {{.Name}} 預設索引成功",
+    "SetPs": "成功設定專案 {{.Name}} ps {{.Ps}}",
+    "SetSSL": "成功設定專案 {{.Name}} ssl"
+  },
+  "project_general": {
+    "Create": "成功建立通用專案 {{.Name}}",
+    "Delete": "成功刪除通用專案 {{.Name}}",
+    "SaveConfig": "成功儲存通用專案 {{.Name}} 配置",
+    "SetStatus": "成功將通用專案 {{.Name}} 狀態設定為 {{.Status}}"
+  },
+  "project_web": {
+    "Create": "成功建立 Web 專案 {{.Name}}",
+    "Delete": "成功刪除 Web 專案 {{.Name}}",
+    "SetExpireTime": "成功將 Web 專案 {{.Name}} 到期時間設定為 {{.ExpireTime}}",
+    "SetPath": "成功將 Web 專案 {{.Name}} 路徑設定為 {{.Path}}",
+    "SetRunPath": "成功將 Web 專案 {{.Name}} 執行路徑設定為 {{.RunPath}}",
+    "SetStatus": "成功將 Web 專案 {{.Name}} 狀態設定為 {{.Status}}",
+    "SetUserIni": "成功將 Web 專案 {{.Name}} UserIni 狀態設定為 {{.Status}}",
+    "SwitchUsingPHPVersion": "成功將 Web 專案 {{.Name}} 使用的 PHP 版本切換至 {{.Version}}"
+  },
+  "queuetask": {
+    "ClearCompletedTasks": "成功清除已完成的任務",
+    "Delete": "成功刪除佇列任務 {{.Name}}",
+    "Install": "已將安裝任務 {{.Name}} 新增至佇列",
+    "InstallingOrWaiting": "{{.Name}} 版本正在安裝或在佇列中等待",
+    "Uninstall": "已將解除安裝任務 {{.Name}} 新增至佇列",
+    "UninstallingOrWaiting": "{{.Name}} 版本正在解除安裝或在佇列中等待"
+  },
+  "recyclebin": {
+    "Clear": "成功清空回收站",
+    "Delete": "成功刪除還原檔案 {{.Name}}",
+    "Recovery": "成功還原 {{.Path}}",
+    "SetStatus": "成功將回收站狀態設為 {{.Status}}"
+  },
+  "redis": {
+    "MustSetPassword": "Redis 必須設置密碼才能監聽公共網絡 IP",
+    "PasswordFormatError": "Redis 密碼不能包含特殊符號"
+  },
+  "settings": {
+    "ChangeUser": "成功變更面板使用者名稱為 {{.User}}",
+    "SetBasicAuth": "成功設定 BasicAuth {{.Status}}",
+    "SetEntrance": "成功設定面板入口為 {{.Entrance}}",
+    "SetEntranceErrorCodeR": "成功設定面板入口錯誤代碼為 {{.ErrorCode}}",
+    "SetPanelApi": "成功設定面板 API 狀態為 {{.Status}}",
+    "SetPanelIP": "成功設定面板 IP 為 {{.IP}}",
+    "SetPanelName": "成功設定面板名稱為 {{.Name}}",
+    "SetPanelPort": "成功設定面板埠為 {{.Port}}"
+  },
+  "ssh_manage": {
+    "OperatePasswordLogin": "成功操作密碼登錄狀態 {{.Status}}",
+    "OperateSSHKeyLogin": "成功操作 SSH 密鑰登錄狀態 {{.Status}} 密鑰類型：{{.KeyType}}",
+    "SetStatus": "成功設置 SSH 狀態為 {{.Status}}"
+  },
+  "ssl": {
+    "ApplyCertificate": "申請證書 {{.Domains}}，日誌路徑：{{.LogPath}}",
+    "CreateAcmeAccount": "成功創建 ACME 帳戶 {{.Name}}",
+    "CreateDnsAccount": "成功創建 DNS 帳戶 {{.Name}}",
+    "EditDnsAccount": "成功編輯 DNS 帳戶 {{.Name}}"
+  },
+  "storage": {
+    "Add": "成功添加存儲 {{.Name}}",
+    "Edit": "成功編輯存儲 {{.Name}}"
+  },
+  "task_manager": {
+    "DeleteLinuxUser": "成功刪除 Linux 用戶 {{.Name}}",
+    "DeleteService": "成功刪除服務 {{.Name}}",
+    "KillProcess": "成功終止進程 {{.PID}} 強制：{{.Force}}",
+    "SetRunLevel": "成功設置服務 {{.Name}} 運行級別為 {{.RunLevel}}",
+    "SystemctlManagedServiceCannotSetStatusOfOtherRunlevel": "Systemctl 管理的服務無法設置其他運行級別的狀態"
+  },
+  "tips": {
+    "AddSuccess": "新增成功",
+    "AddedToQueueTask": "已新增至佇列任務",
+    "BackupSuccess": "備份成功",
+    "ClearSuccess": "清除成功",
+    "CloseSuccess": "關閉成功",
+    "CompressSuccess": "壓縮成功",
+    "ConnectSuccess": "連線成功",
+    "CopySuccess": "複製成功",
+    "CreateSuccess": "建立成功",
+    "DecompressSuccess": "解壓縮成功",
+    "DeleteSuccess": "刪除成功",
+    "EditSuccess": "編輯成功",
+    "ExecuSuccess": "執行成功",
+    "ExportSuccess": "匯出成功",
+    "ImportSuccess": "匯入成功",
+    "LoginSuccess": "登入成功",
+    "LogoutSuccess": "登出成功",
+    "MoveSuccess": "移動成功",
+    "OpenSuccess": "開啟成功",
+    "OperateSuccess": "操作成功",
+    "RecoverySuccess": "復原成功",
+    "RenameSuccess": "重新命名成功",
+    "SaveSuccess": "儲存成功",
+    "SendSuccess": "傳送成功",
+    "SetStatusSuccess": "設定狀態成功",
+    "SetSuccess": "設定成功",
+    "SwitchSuccess": "切換成功",
+    "SyncSuccess": "同步成功",
+    "TestSuccess": "測試成功",
+    "UploadSuccess": "上傳成功",
+    "updateSuccess": "更新成功"
+  },
+  "ttwaf": {
+    "AddIpBlackList": "成功添加 IP 黑名單 IPv4:{{.Ipv4}} IPv6:{{.Ipv6}}",
+    "AllowIP": "成功允許 IP {{.IPS}}",
+    "GlobalSet": "全局設置成功",
+    "SaveConfig": "成功保存配置",
+    "SaveProjectConfig": "成功保存項目配置",
+    "SaveRegRule": "成功保存正則規則"
+  },
+  "user": {
+    "TooManyLoginError": "登錄錯誤次數過多，請一小時後重試",
+    "UsernameOrPasswordError": "用戶名或密碼錯誤，您還有 {{.Count}} 次嘗試機會",
+    "administratorDoesNotExist": "管理員不存在"
+  }
+}
