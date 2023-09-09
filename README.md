@@ -2,13 +2,13 @@
 
 ### 简单的Linux管理面板，支持CentOS、Ubuntu、Debian
 
-[English README](README_en.md)
+[English README](README_en.md) [截图](/screenshots)
 
 - ⚠️ 在 1.0.0 正式版之前请勿用于生产环境
 - ⚠️ 由于前端使用了商业框架，无法开源前端代码
 
 
-## 截图
+## 
 
 
 ## web环境

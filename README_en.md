@@ -2,13 +2,11 @@
 
 ### Simple Linux control panel，supports CentOS、Ubuntu、Debian
 
-[简体中文](README.md)
+[简体中文](README.md)  [Screenshots](/screenshots)
 
 - ⚠️ Do not use in production environments before the 1.0.0 official version
 - ⚠️ The frontend uses a commercial framework and the frontend code cannot be open sourced
 
-
-## Screenshots
 
 
 ## Web Environment
