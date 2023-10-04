@@ -3,10 +3,12 @@ package initialize
 import (
 	"TTPanel/internal/global"
 	"TTPanel/internal/model"
+	"TTPanel/pkg/util"
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/go-gormigrate/gormigrate/v2"
 	"gorm.io/gorm"
+	"path/filepath"
 )
 
 func InitMigrate() {
@@ -62,6 +64,21 @@ func InitMigrate() {
 				Name:   "官方仓库",
 				Url:    "https://docker.io",
 				Remark: "Docker官方仓库",
+			}).Create(global.PanelDB)
+			return nil
+		},
+	}
+	//配置项表
+	var configTable = &gormigrate.Migration{
+		ID: "configTable-202309120626",
+		Migrate: func(tx *gorm.DB) error {
+			err = tx.AutoMigrate(&model.PanelConfig{})
+			if err != nil {
+				return err
+			}
+			_, _ = (&model.PanelConfig{
+				Key:   "mysql_root_pwd",
+				Value: global.Config.System.MysqlRootPassword,
 			}).Create(global.PanelDB)
 			return nil
 		},
@@ -235,9 +252,10 @@ func InitMigrate() {
 		queueTable,
 		storageTable,
 		userTable,
+		configTable,
 	})
 	if err = panel.Migrate(); err != nil {
-		global.Log.Error(fmt.Sprintf("Migrate Panel Error: %v", err))
+		global.Log.Error(fmt.Sprintf("Migrate PanelDB Error: %v", err))
 		panic(err)
 	}
 	//ttwaf拦截ip日志表
@@ -259,9 +277,12 @@ func InitMigrate() {
 		banIPTable,
 	})
 	if err = ttwaf.Migrate(); err != nil {
-		global.Log.Error(fmt.Sprintf("Migrate TTwaf Error: %v", err))
+		global.Log.Error(fmt.Sprintf("Migrate TTwafDB Error: %v", err))
 		panic(err)
 	}
+	//处理ttwf数据库权限问题
+	_, _ = util.ExecShell(fmt.Sprintf("chown -R www.www %s", filepath.Dir(global.Config.Sqlite.TTWafPath)))
+	_, _ = util.ExecShell(fmt.Sprintf("chmod -R 755 %s", filepath.Dir(global.Config.Sqlite.TTWafPath)))
 
 	//analytics表处理 Todo:好像有点问题
 	//serverNameS := []string{}

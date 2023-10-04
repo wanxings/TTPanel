@@ -35,6 +35,9 @@ func (s *SSLService) DnsTypeList() ([]*response.DnsTypeConfig, error) {
 
 func (s *SSLService) DnsAccountList() (list map[string]*response.DnsAccount, err error) {
 	dnsAccountPath := global.Config.System.PanelPath + "/data/lego/dns_account.json"
+	if !util.PathExists(dnsAccountPath) {
+		_ = util.WriteFile(dnsAccountPath, []byte("{}"), 644)
+	}
 	jsonBody, err := util.ReadFileStringBody(dnsAccountPath)
 	if err != nil {
 		return nil, err
@@ -141,6 +144,9 @@ func (s *SSLService) SaveAcmeAccountList(accountList map[string]*response.AcmeAc
 
 func (s *SSLService) AcmeAccountList() (accountList map[string]*response.AcmeAccount, err error) {
 	acmeAccountPath := global.Config.System.PanelPath + "/data/lego/acme_account.json"
+	if !util.PathExists(acmeAccountPath) {
+		_ = util.WriteFile(acmeAccountPath, []byte("{}"), 644)
+	}
 	jsonBody, err := util.ReadFileStringBody(acmeAccountPath)
 	if err != nil {
 		return

@@ -4,7 +4,7 @@
 
 [简体中文](README.md)  [Screenshots](/screenshots)
 
-- ⚠️ Do not use in production environments before the 1.0.0 official version
+- ⚠️ Please do not use it in production environment
 - ⚠️ The frontend uses a commercial framework and the frontend code cannot be open sourced
 
 

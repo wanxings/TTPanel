@@ -206,3 +206,7 @@ const (
 	SSHLoginStatusBySuccess = iota + 1
 	SSHLoginStatusByFailed  = iota + 1
 )
+
+const (
+	SpiderByBaidu = ""
+)

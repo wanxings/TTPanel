@@ -6,7 +6,11 @@ LANG=en_US.UTF-8
 header_file=/www/panel/data/shell/install_header.sh
 . $header_file
 download_Url=$NODE_URL
-
+u0010() {
+  mkdir -p /www/wwwlogs/analytics
+  chown www.www /www/wwwlogs/analytics
+  chmod 744 /www/wwwlogs/analytics
+}
 Update() {
   #清理临时目录
   rm -rf /tmp/update_panel
@@ -28,6 +32,9 @@ Update() {
     mv -f /tmp/update_panel/panel/tt /etc/init.d/tt
     chmod +x /etc/init.d/tt
   fi
+
+  #版本处理
+  u010
 
   cp -rf /tmp/update_panel/* /www/
   rm -f update_panel.tar.gz

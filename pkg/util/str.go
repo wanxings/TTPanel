@@ -57,7 +57,7 @@ func UniqueStrSlice(slice []string) []string {
 	return result
 }
 
-// StrIsEmpty 判断字符串是否为空
+// StrIsEmpty 判断字符串是否为空,为空返回true
 func StrIsEmpty(str string) bool {
 	return len(str) == 0
 }

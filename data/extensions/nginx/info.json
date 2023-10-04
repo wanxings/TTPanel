@@ -1,11 +1,11 @@
 {
   "description": {
-    "name": "nginx",
-    "title": "Nginx",
-    "title_en": "Nginx",
-    "website":"https://www.nginx.com/",
-    "ps": "轻量级，占有内存少，并发能力强",
-    "ps_en": "Lightweight, less memory, concurrent ability",
+    "name": "nginx-openresty",
+    "title": "Nginx-Openresty",
+    "title_en": "Nginx-Openresty",
+    "website":"http://openresty.org/",
+    "ps": "OpenResty是一个基于 NGINX 和 LuaJIT 的动态 Web 平台。",
+    "ps_en": "OpenResty is a dynamic web platform based on NGINX and LuaJIT.",
     "version_shell": "/www/server/nginx/sbin/nginx -v 2>&1|grep version|awk '{print $3}'|cut -f2 -d'/'",
     "server_path": "/www/server/nginx",
     "mutex": "apache,openlitespeed",
@@ -13,74 +13,10 @@
   },
   "versions": [
     {
-      "name": "nginx-1.23",
-      "version": "1.23.3",
-      "s_version": "1.23",
-      "m_version": "123",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "nginx-1.22",
-      "version": "1.22.1",
-      "s_version": "1.22",
-      "m_version": "122",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "nginx-1.20",
-      "version": "1.20.2",
-      "s_version": "1.20",
-      "m_version": "120",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "nginx-1.18",
-      "version": "1.18.0",
-      "s_version": "1.18",
-      "m_version": "118",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "nginx-1.16",
-      "version": "1.16.1",
-      "s_version": "1.16",
-      "m_version": "116",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "nginx-1.14",
-      "version": "1.14.2",
-      "s_version": "1.14",
-      "m_version": "114",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "nginx-1.12",
-      "version": "1.12.2",
-      "s_version": "1.12",
-      "m_version": "112",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
       "name": "openresty-1.21",
-      "version": "1.21.4.1-openresty",
+      "version": "1.21.4.2-openresty",
       "s_version": "openresty",
-      "m_version": "12104",
-      "mem_limit": 32,
-      "cpu_limit": 1
-    },
-    {
-      "name": "tengine-2.4",
-      "version": "2.4.0-tengine",
-      "s_version": "tengine",
-      "m_version": "204",
+      "m_version": "1210402",
       "mem_limit": 32,
       "cpu_limit": 1
     }

@@ -38,7 +38,7 @@ type System struct {
 	BasicAuth               BasicAuth   `mapstructure:"basic_auth" json:"basic_auth" yaml:"basic_auth"`                            // 基本认证
 	RecycleBin              RecycleBin  `mapstructure:"recycle_bin" json:"recycle_bin" yaml:"recycle_bin"`
 	FileHistory             FileHistory `mapstructure:"file_history" json:"file_history" yaml:"file_history"`
-	MysqlRootPassword       string      `mapstructure:"mysql_root_password" json:"mysql_root_password" yaml:"mysql_root_password"`
+	MysqlRootPassword       string      `mapstructure:"mysql_root_password" json:"mysql_root_password" yaml:"mysql_root_password"`                   //0.1.0版本废弃
 	CloudNodes              []string    `mapstructure:"cloud_nodes" json:"cloud_nodes" yaml:"cloud_nodes"`                                           // 云节点
 	DefaultProjectDirectory string      `mapstructure:"default_project_directory" json:"default_project_directory" yaml:"default_project_directory"` // 默认网站目录
 	DefaultBackupDirectory  string      `mapstructure:"default_backup_directory" json:"default_backup_directory" yaml:"default_backup_directory"`    // 默认备份目录

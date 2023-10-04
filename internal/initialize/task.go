@@ -50,6 +50,7 @@ func startTaskQueue(quit <-chan string) {
 			// 查询未执行的任务
 			taskQueueList, _, err := (&model.QueueTask{}).List(global.PanelDB, &model.ConditionsT{
 				"status": constant.QueueTaskStatusWait,
+				"ORDER":  "create_time ASC",
 			}, 0, 0)
 			if err != nil {
 				global.Log.Errorf("查询未执行的任务  Error:%s", err)

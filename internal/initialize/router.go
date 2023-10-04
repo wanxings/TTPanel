@@ -46,6 +46,7 @@ func Routers() *gin.Engine {
 		//BasicAuth认证
 		//Router.Use(middleware.BasicAuth())
 	}
+	global.Log.Debugln("use router")
 
 	//静态文件路由
 	routerGroupApp.StaticRouterApp.Init(Router)

@@ -65,10 +65,6 @@ func (s *ExtensionPHPService) Status(version string) bool {
 
 // Install 安装指定版本的PHP
 func (s *ExtensionPHPService) Install(version string) error {
-	err := s.CheckInstall(version)
-	if err != nil {
-		return err
-	}
 	//验证版本号是否正确
 	if ok := util.IsPHPVersion(version); !ok {
 		return errors.New("version Error")
@@ -84,7 +80,7 @@ func (s *ExtensionPHPService) Install(version string) error {
 	//添加面板队列任务
 	execStr := fmt.Sprintf(`cd %s && /bin/bash install_lib.sh && cd %s && /bin/bash install_php.sh install %s`,
 		global.Config.System.PanelPath+"/data/shell", s.GetShellPath(), version)
-	err = AddTaskQueue(taskName, execStr)
+	err := AddTaskQueue(taskName, execStr)
 	if err != nil {
 		return err
 	}

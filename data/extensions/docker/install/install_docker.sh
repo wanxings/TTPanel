@@ -10,7 +10,7 @@ mirror=''
 Default_Download_Url=""
 
 Docker_Download_Url_Check() {
-    ser_names=("download.docker.com" "mirrors.aliyun.com/docker-ce" "mirror.azure.cn/docker-ce")
+    ser_names=("download.docker.com" "mirror.azure.cn/docker-ce")
     tmp_file1=/dev/shm/net_test1.pl
     [ -f "${tmp_file1}" ] && rm -f ${tmp_file1}
 	touch $tmp_file1
@@ -32,9 +32,6 @@ Docker_Download_Url_Check() {
 	rm -f $tmp_file1
     mirror="$NODE_URL"
     case "$mirror" in
-    mirrors.aliyun.com/docker-ce)
-        mirror="Aliyun"
-        ;;
     mirror.azure.cn/docker-ce)
         mirror="AzureChinaCloud"
         ;;
@@ -47,9 +44,6 @@ Docker_Download_Url_Check() {
 Docker_Download_Url_Check
 
 case "$mirror" in
-Aliyun)
-    Default_Download_Url="https://mirrors.aliyun.com/docker-ce"
-    ;;
 AzureChinaCloud)
     Default_Download_Url="https://mirror.azure.cn/docker-ce"
     ;;

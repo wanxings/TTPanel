@@ -43,6 +43,12 @@ func (s *SystemFirewallService) FirewallStatus() *response.FirewallInfo {
 
 // BatchCreatePortRule 批量创建端口规则
 func (s *SystemFirewallService) BatchCreatePortRule(rules []*request.CreatePortRuleR) error {
+	defer func(Core system_firewall.Firewall) {
+		err := Core.Reload()
+		if err != nil {
+			global.Log.Errorf("reload system_firewall Error:%s", err.Error())
+		}
+	}(s.Core)
 	for _, rule := range rules {
 		//检查数据库中协议+端口是否已存在
 		_, total, err := (&model.FirewallRulePort{}).List(global.PanelDB, &model.ConditionsT{
@@ -54,13 +60,11 @@ func (s *SystemFirewallService) BatchCreatePortRule(rules []*request.CreatePortR
 			return err
 		}
 		if total > 0 {
+			//Todo:在启动防火墙时会创建面板端口的规则，面板数据库防火墙表可能已存在规则，还是需要创建规则，否则可能出现无法访问面板的情况
+			_ = s.Core.CreatePortRule(strconv.Itoa(rule.Port), rule.SourceIp, rule.Protocol, rule.Strategy)
 			return errors.New(helper.Message("firewalld.SourcePortAlreadyExists"))
 		}
 		if err := s.Core.CreatePortRule(strconv.Itoa(rule.Port), rule.SourceIp, rule.Protocol, rule.Strategy); err != nil {
-			return err
-		}
-		//重载防火墙
-		if err := s.Core.Reload(); err != nil {
 			return err
 		}
 		//保存到数据库

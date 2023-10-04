@@ -66,6 +66,15 @@ func ExecShellScriptS(cmdStr string) error {
 	cmd := exec.Command("/bin/bash", "-c", cmdStr)
 	return cmd.Run()
 }
+func ExecShellScriptPath(scriptPath string) (string, error) {
+	cmd := exec.Command("bash", scriptPath)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("ExecShellScriptPath-errMsg-> %s\n", err.Error())
+		return "", err
+	}
+	return string(output), nil
+}
 func ExecShellAsUser(cmdStr string, user string) (string, error) {
 	cmd := exec.Command("su", user, "-c", cmdStr)
 	var stdout, stderr bytes.Buffer

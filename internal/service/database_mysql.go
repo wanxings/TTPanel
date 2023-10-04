@@ -143,7 +143,11 @@ func (s *DatabaseMysqlService) ServerList(param *request.ListMysqlServerR) (map[
 
 // GetRootPwd 获取本地MySQL数据库root密码
 func (s *DatabaseMysqlService) GetRootPwd() (string, error) {
-	return global.Config.System.MysqlRootPassword, nil
+	get, err := (&model.PanelConfig{Key: "mysql_root_pwd"}).Get(global.PanelDB)
+	if err != nil {
+		return "", err
+	}
+	return get.Value, nil
 }
 
 // SetRootPwd 设置MySQL数据库root密码
@@ -450,7 +454,11 @@ func (s *DatabaseMysqlService) NewMysqlServiceBySid(sid int64) (*gorm.DB, error)
 			port = portRe[1]
 		}
 		//查询Mysql root密码
-		dsn = fmt.Sprintf("root:%s@tcp(localhost:%s)/?charset=utf8&parseTime=True&loc=Local", global.Config.System.MysqlRootPassword, port)
+		get, err := (&model.PanelConfig{Key: "mysql_root_pwd"}).Get(global.PanelDB)
+		if err != nil {
+			return nil, err
+		}
+		dsn = fmt.Sprintf("root:%s@tcp(localhost:%s)/?charset=utf8&parseTime=True&loc=Local", get.Value, port)
 	} else { //使用远程mysql数据库
 		//查询数据库服务器信息
 		dbServer, err := (&model.DatabaseServer{ID: sid}).Get(global.PanelDB)
@@ -585,10 +593,12 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
 pwd=${password}
-service mysqld stop
+/etc/init.d/mysqld stop
 mysqld_safe --skip-grant-tables&
-sleep 3
-m_version=$(cat /www/server/mysql/version.pl|grep -E "(5.1.|5.5.|5.6.)")
+echo '正在修改密码...';
+echo 'The set password...';
+sleep 6
+m_version=$(/www/server/mysql/bin/mysql -V | grep -E '(5.1.|5.5.|5.6.)')
 if [ "$m_version" != "" ];then
     mysql -uroot -e "insert into mysql.user(Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,Reload_priv,Shutdown_priv,Process_priv,File_priv,Grant_priv,References_priv,Index_priv,Alter_priv,Show_db_priv,Super_priv,Create_tmp_table_priv,Lock_tables_priv,Execute_priv,Repl_slave_priv,Repl_client_priv,Create_view_priv,Show_view_priv,Create_routine_priv,Alter_routine_priv,Create_user_priv,Event_priv,Trigger_priv,Create_tablespace_priv,User,Password,host)values('Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','root',password('${pwd}'),'127.0.0.1')"
     mysql -uroot -e "insert into mysql.user(Select_priv,Insert_priv,Update_priv,Delete_priv,Create_priv,Drop_priv,Reload_priv,Shutdown_priv,Process_priv,File_priv,Grant_priv,References_priv,Index_priv,Alter_priv,Show_db_priv,Super_priv,Create_tmp_table_priv,Lock_tables_priv,Execute_priv,Repl_slave_priv,Repl_client_priv,Create_view_priv,Show_view_priv,Create_routine_priv,Alter_routine_priv,Create_user_priv,Event_priv,Trigger_priv,Create_tablespace_priv,User,Password,host)values('Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y','root',password('${pwd}'),'localhost')"
@@ -602,12 +612,12 @@ mysql -uroot -e "FLUSH PRIVILEGES";
 pkill -9 mysqld_safe
 pkill -9 mysqld
 sleep 2
-service mysqld start
+/etc/init.d/mysqld start
+
 
 echo '==========================================='
 echo "root密码成功修改为: ${pwd}"
 echo "The root password set ${pwd}  successful"
-exit 0
 `
 	//替换密码
 	cmdTemp = strings.Replace(cmdTemp, "${password}", password, -1)
@@ -618,22 +628,15 @@ exit 0
 	if err != nil {
 		return err
 	}
-	fmt.Println("正在修改root密码，请稍后...")
-	fmt.Println("The set password...")
-	err = util.ExecShellScriptS("bash /tmp/mysql_root.sh")
+	err = util.ExecShellScriptS("/tmp/mysql_root.sh")
 	if err != nil {
-		global.Log.Errorf("修改root密码失败：%s", err.Error())
+		global.Log.Errorf("Error：%s", err.Error())
 		return err
 	}
-	//开始写入配置文件
-	global.Config.System.MysqlRootPassword = password
-	newConfig := global.Config.System
-	global.Vp.Set("system", newConfig)
-	err = global.Vp.WriteConfig() // 保存配置文件
+	err = (&model.PanelConfig{Key: "mysql_root_pwd", Value: password}).Update(global.PanelDB)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 

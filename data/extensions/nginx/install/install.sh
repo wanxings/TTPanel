@@ -13,14 +13,13 @@ run_path="/root"
 Is_64bit=$(getconf LONG_BIT)
 
 ARM_CHECK=$(uname -a | grep -E 'aarch64|arm|ARM')
-LUAJIT_VER="2.0.4"
-LUAJIT_INC_PATH="luajit-2.0"
+LUAJIT_VER="2.1-20230911"
+LUAJIT_INC_PATH="luajit-2.1"
 
-if [ "${ARM_CHECK}" ]; then
-  LUAJIT_VER="2.1.0"
-  LUAJIT_INC_PATH="luajit-2.1"
-fi
-
+#if [ "${ARM_CHECK}" ]; then
+#  LUAJIT_VER="2.1.0"
+#  LUAJIT_INC_PATH="luajit-2.1"
+#fi
 System_Lib() {
   if [ "${PM}" == "yum" ] || [ "${PM}" == "dnf" ]; then
     Pack="gcc gcc-c++ curl curl-devel libtermcap-devel ncurses-devel libevent-devel readline-devel libuuid-devel"
@@ -76,13 +75,13 @@ Install_Jemalloc() {
 }
 Install_LuaJIT() {
   if [ ! -f '/usr/local/lib/libluajit-5.1.so' ] || [ ! -f "/usr/local/include/${LUAJIT_INC_PATH}/luajit.h" ]; then
-    wget -c -O LuaJIT-${LUAJIT_VER}.tar.gz ${download_Url}/install/src/LuaJIT-${LUAJIT_VER}.tar.gz -T 10
-    tar xvf LuaJIT-${LUAJIT_VER}.tar.gz
-    cd LuaJIT-${LUAJIT_VER}
+    wget -c -O luajit2-${LUAJIT_VER}.tar.gz ${download_Url}/install/src/luajit2-${LUAJIT_VER}.tar.gz -T 10
+    tar xvf luajit2-${LUAJIT_VER}.tar.gz
+    cd luajit2-${LUAJIT_VER}
     make linux
     make install
     cd ..
-    rm -rf LuaJIT-*
+    rm -rf luajit2-*
     export LUAJIT_LIB=/usr/local/lib
     export LUAJIT_INC=/usr/local/include/${LUAJIT_INC_PATH}/
     ln -sf /usr/local/lib/libluajit-5.1.so.2 /usr/local/lib64/libluajit-5.1.so.2
@@ -106,7 +105,7 @@ Download_Src() {
   mkdir -p ${Setup_Path}
   cd ${Setup_Path}
   rm -rf ${Setup_Path}/src
-  if [ "${version}" == "tengine" ] || [ "${version}" == "openresty" ]; then
+  if [ "${version}" == "openresty" ]; then
     wget -O ${Setup_Path}/src.tar.gz ${download_Url}/extensions/nginx/src/${version}-${nginxVersion}.tar.gz -T20
     tar -xvf src.tar.gz
     mv ${version}-${nginxVersion} src
@@ -119,13 +118,8 @@ Download_Src() {
 
   cd src
 
-  TLSv13_NGINX=$(echo ${nginxVersion} | tr -d '.' | cut -c 1-3)
-  if [ "${TLSv13_NGINX}" -ge "115" ] && [ "${TLSv13_NGINX}" != "181" ]; then
-    opensslVer="1.1.1q"
-  else
-    opensslVer="1.0.2u"
-  fi
-
+  #  TLSv13_NGINX=$(echo ${nginxVersion} | tr -d '.' | cut -c 1-3)
+  opensslVer="1.1.1q"
   wget -O openssl.tar.gz ${download_Url}/install/src/openssl-${opensslVer}.tar.gz
   tar -xvf openssl.tar.gz
   mv openssl-${opensslVer} openssl
@@ -151,6 +145,9 @@ Download_Src() {
 
   #lua_nginx_module
   LuaModVer="0.10.13"
+  if [ "${version}" == "openresty" ]; then
+    LuaModVer="0.10.25"
+  fi
   wget -c -O lua-nginx-module-${LuaModVer}.zip ${download_Url}/install/src/lua-nginx-module-${LuaModVer}.zip
   unzip -o lua-nginx-module-${LuaModVer}.zip
   mv lua-nginx-module-${LuaModVer} lua_nginx_module
@@ -169,16 +166,6 @@ Download_Src() {
   tar -xvf nginx-dav-ext-module-${NgxDavVer}.tar.gz
   mv nginx-dav-ext-module-${NgxDavVer} nginx-dav-ext-module
   rm -f nginx-dav-ext-module-${NgxDavVer}.tar.gz
-
-  if [ "${Is_64bit}" = "64" ]; then
-    if [ "${version}" == "tengine" ]; then
-      NGX_PAGESPEED_VAR="1.13.35.2"
-      wget -O ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz ${download_Url}/install/src/ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz
-      tar -xvf ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz
-      mv ngx-pagespeed-${NGX_PAGESPEED_VAR} ngx-pagespeed
-      rm -f ngx-pagespeed-${NGX_PAGESPEED_VAR}.tar.gz
-    fi
-  fi
 }
 Install_Configure() {
   Run_User="www"
@@ -194,11 +181,7 @@ Install_Configure() {
     jemallocLD="--with-ld-opt="-ljemalloc""
   fi
 
-  if [ "${version}" == "1.8" ]; then
-    ENABLE_HTTP2="--with-http_spdy_module"
-  else
-    ENABLE_HTTP2="--with-http_v2_module --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module"
-  fi
+  ENABLE_HTTP2="--with-http_v2_module --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module"
 
   WebDav_NGINX=$(echo ${nginxVersion} | tr -d '.' | cut -c 1-3)
   if [ "${WebDav_NGINX}" -ge "114" ] && [ "${WebDav_NGINX}" != "181" ]; then
@@ -207,40 +190,17 @@ Install_Configure() {
 
   if [ "${version}" == "openresty" ]; then
     ENABLE_LUA="--with-luajit"
-  elif [ -z "${ARM_CHECK}" ] && [ -f "/usr/local/include/${LUAJIT_INC_PATH}/luajit.h" ]; then
+  else
     ENABLE_LUA="--add-module=${Setup_Path}/src/ngx_devel_kit --add-module=${Setup_Path}/src/lua_nginx_module"
   fi
 
   ENABLE_STICKY="--add-module=${Setup_Path}/src/nginx-sticky-module"
-  if [ "$version" == "1.23" ]; then
-    ENABLE_LUA=""
-    ENABLE_STICKY=""
-  fi
 
-  if [ "${ARM_CHECK}" ]; then
-    ARM_LUA="--add-module=/www/server/nginx/src/ngx_devel_kit --add-module=/www/server/nginx/src/lua_nginx_module"
-  else
-    ARM_LUA=""
-  fi
-
-
-  #    name=nginx
-  #    i_path=/www/server/panel/install/$name
-  #
-  #    i_args=$(cat $i_path/config.pl | xargs)
-  #    i_make_args=""
-  #    for i_name in $i_args; do
-  #        init_file=$i_path/$i_name/init.sh
-  #        if [ -f $init_file ]; then
-  #            bash $init_file
-  #        fi
-  #
-  #        args_file=$i_path/$i_name/args.pl
-  #        if [ -f $args_file ]; then
-  #            args_string=$(cat $args_file)
-  #            i_make_args="$i_make_args $args_string"
-  #        fi
-  #    done
+  #  if [ "${ARM_CHECK}" ]; then
+  #    ARM_LUA="--add-module=${Setup_Path}/src/ngx_devel_kit --add-module=${Setup_Path}/src/lua_nginx_module"
+  #  else
+  #    ARM_LUA=""
+  #  fi
 
   cd ${Setup_Path}/src
 
@@ -248,7 +208,9 @@ Install_Configure() {
   export LUAJIT_INC=/usr/local/include/${LUAJIT_INC_PATH}/
   export LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH
 
-  ./configure --user=www --group=www --prefix=${Setup_Path} ${ENABLE_LUA} ${ARM_LUA} --add-module=${Setup_Path}/src/ngx_cache_purge ${ENABLE_STICKY} --with-openssl=${Setup_Path}/src/openssl --with-pcre=pcre-${pcre_version} ${ENABLE_HTTP2} --with-http_stub_status_module --with-http_ssl_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-cc-opt="-Wno-error" ${jemallocLD} ${ENABLE_WEBDAV} ${ENABLE_NGX_PAGESPEED} ${ADD_EXTENSION} ${i_make_args}
+#  echo "--user=www --group=www --prefix=${Setup_Path} ${ENABLE_LUA}  --add-module=${Setup_Path}/src/ngx_cache_purge ${ENABLE_STICKY} --with-openssl=${Setup_Path}/src/openssl --with-pcre=pcre-${pcre_version} ${ENABLE_HTTP2} --with-http_stub_status_module --with-http_ssl_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module"
+#  exit 1
+  ./configure --user=www --group=www --prefix=${Setup_Path} ${ENABLE_LUA}  --add-module=${Setup_Path}/src/ngx_cache_purge ${ENABLE_STICKY} --with-openssl=${Setup_Path}/src/openssl --with-pcre=pcre-${pcre_version} ${ENABLE_HTTP2} --with-http_stub_status_module --with-http_ssl_module --with-http_image_filter_module --with-http_gzip_static_module --with-http_gunzip_module --with-ipv6 --with-http_sub_module --with-http_flv_module --with-http_addition_module --with-http_realip_module --with-http_mp4_module --with-ld-opt="-Wl,-E" --with-cc-opt="-Wno-error" ${jemallocLD} ${ENABLE_WEBDAV} ${ENABLE_NGX_PAGESPEED} ${ADD_EXTENSION} ${i_make_args}
   make -j${cpuCore}
 }
 Install_Nginx() {
@@ -316,9 +278,6 @@ Update_Nginx() {
 
   echo "${nginxVersion}" >${Setup_Path}/version.pl
   rm -f ${Setup_Path}/version_check.pl
-  if [ "${version}" == "tengine" ]; then
-    echo "2.2.4(${tengine})" >${Setup_Path}/version_check.pl
-  fi
   exit
 }
 Set_Conf() {
@@ -399,6 +358,11 @@ EOF
   mkdir -p /www/wwwlogs/waf
   chown www.www /www/wwwlogs/waf
   chmod 744 /www/wwwlogs/waf
+
+  mkdir -p /www/wwwlogs/analytics
+  chown www.www /www/wwwlogs/analytics
+  chmod 744 /www/wwwlogs/analytics
+
   mkdir -p /www/panel/data/vhost
 
   sed -i "s#include vhost/\*.conf;#include /www/panel/data/extensions/nginx/vhost/main/\*.conf;#" ${Setup_Path}/conf/nginx.conf
@@ -406,9 +370,6 @@ EOF
   sed -i "/pathinfo/d" ${Setup_Path}/conf/enable-php.conf
   sed -i "s/#limit_conn_zone.*/limit_conn_zone \$binary_remote_addr zone=perip:10m;\n\tlimit_conn_zone \$server_name zone=perserver:10m;/" ${Setup_Path}/conf/nginx.conf
   sed -i "s/mime.types;/mime.types;\n\t\tinclude proxy.conf;\n/" ${Setup_Path}/conf/nginx.conf
-  #if [ "${nginx_version}" == "1.12.2" ] || [ "${nginx_version}" == "openresty" ] || [ "${nginx_version}" == "1.14.2" ];then
-#  sed -i "s/mime.types;/mime.types;\n\t\t#include luawaf.conf;\n/" ${Setup_Path}/conf/nginx.conf
-  #fi
 
   PHPVersion=""
   for phpVer in 52 53 54 55 56 70 71 72 73 74 80; do
@@ -424,18 +385,6 @@ EOF
   wget -O /etc/init.d/nginx ${download_Url}/extensions/nginx/nginx.init -T 5
   chmod +x /etc/init.d/nginx
 }
-Set_Version() {
-  if [ "${version}" == "tengine" ]; then
-    echo "-Tengine2.2.3" >${Setup_Path}/version.pl
-    echo "2.2.4(${tengine})" >${Setup_Path}/version_check.pl
-  elif [ "${version}" == "openresty" ]; then
-    echo "openresty" >${Setup_Path}/version.pl
-    echo "openresty-${openresty}" >${Setup_Path}/version_check.pl
-  else
-    echo "${nginxVersion}" >${Setup_Path}/version.pl
-  fi
-
-}
 
 Uninstall_Nginx() {
   if [ -f "/etc/init.d/nginx" ]; then
@@ -450,17 +399,14 @@ Uninstall_Nginx() {
 actionType=$1
 version=$2
 
-
-
-
 if [ "${actionType}" == "uninstall" ]; then
   Service_Del
   Uninstall_Nginx
 else
   if [[ $version == *-* ]]; then
     # 版本号包含 "-" 符号
-    nginxVersion="${version%%-*}"   # 提取 "-" 符号前的部分
-    version="${version#*-}"    # 提取 "-" 符号后的部分
+    nginxVersion="${version%%-*}" # 提取 "-" 符号前的部分
+    version="${version#*-}"       # 提取 "-" 符号后的部分
   else
     # 版本号不包含 "-" 符号
     nginxVersion=$version
@@ -481,8 +427,8 @@ else
     Install_Configure
     Install_Nginx
     Set_Conf
-    Set_Version
     Service_Add
+    sleep 3
     /etc/init.d/nginx start
   elif [ "${actionType}" == "update" ]; then
     Download_Src

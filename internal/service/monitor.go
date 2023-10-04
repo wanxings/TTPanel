@@ -36,8 +36,8 @@ func MonitorInit() {
 		//监控配置
 		configBody, err := util.ReadFileStringBody(global.Config.System.PanelPath + "/data/monitor/config.json")
 		if err != nil {
-			panic(err)
-			return
+			_ = util.WriteFile(global.Config.System.PanelPath+"/data/monitor/config.json", []byte("{}"), 644)
+			configBody = "{}"
 		}
 		err = util.JsonStrToStruct(configBody, EventConfig)
 		if err != nil {

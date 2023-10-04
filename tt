@@ -173,119 +173,113 @@ reset_system_firewall_rule() {
   fi
 }
 Menu() {
-  echo "面板命令行"
+  echo "面板命令行(Panel Command)"
   COLUMNS=2
-  PS3="请输入命令编号："
-  select action in "重启面板" "启动面板" "停止面板" "修改面板用户名" "修改面板密码" "修改面板端口" "修改面板入口" "面板默认信息" "关闭系统防火墙" "开放系统防火墙端口" "关闭BaseAuth认证" "查看版本"; do
+  PS3="请输入命令编号(Please enter the command number)："
+  select action in "重启面板(Restart panel)" \
+    "启动面板(Start panel)" \
+    "停止面板(Stop panel)" \
+    "修改面板用户名(Modify panel user name)" \
+    "修改面板密码(Modify panel password)" \
+    "修改面板端口(Modify panel port)" \
+    "修改面板入口(Modify panel entry)" \
+    "面板默认信息(Panel default info)" \
+    "关闭系统防火墙(Turn off system firewall)" \
+    "开放系统防火墙端口(Open system firewall ports)" \
+    "查看版本(View panel version)"; do
     case $action in
-    "重启面板")
+    "重启面板(Restart panel)")
       panel_stop
       sleep 6
       panel_start
       break
       ;;
-    "停止面板")
-      panel_stop
-      break
-      ;;
-    "启动面板")
+    "启动面板(Start panel)")
       panel_start
       break
       ;;
-    "修改面板用户名")
-      #提示输入用户名
-      read -r -p "请输入新用户名: " newUser
+    "停止面板(Stop panel)")
+      panel_stop
+      break
+      ;;
+    "修改面板用户名(Modify panel user name)")
+      read -r -p "请输入新用户名(New User Name): " newUser
       if [ "$newUser" == '' ]; then
         exit
       fi
       $panel_path/TTPanel tools setUser -u "$newUser"
       break
       ;;
-    "修改面板密码")
+    "修改面板密码(Modify panel password)")
       #提示输入密码
-      read -r -p "请输入新密码: " newPwd
+      read -r -p "请输入新密码(New password): " newPwd
       if [ "$newPwd" == '' ]; then
         exit
       fi
       $panel_path/TTPanel tools setPwd -p "$newPwd"
       break
       ;;
-    "修改面板入口")
-      read -r -p "请输入新面板入口:" entrance
-
-      if [ -z "$entrance" ]; then
-        exit
-      fi
-      $panel_path/TTPanel tools setEntrance -e "$entrance"
-      break
-      ;;
-    "修改面板端口")
+    "修改面板端口(Modify panel port)")
       while true; do
-        echo "请输入面板端口："
+        echo "请输入面板端口(New Port)："
         read -r port
-
         if [[ -z $port ]]; then
           echo "端口号不能为空，请重新输入！"
         elif ! [[ $port =~ ^[0-9]+$ ]]; then
           echo "端口号必须是数字，请重新输入！"
         else
-          echo "您输入的端口号是：$port"
           break
         fi
       done
       $panel_path/TTPanel tools setPort -p "$port"
       break
       ;;
-
-    "关闭系统防火墙")
-      echo "关闭系统防火墙"
-      turn_off_system_firewall
+    "修改面板入口(Modify panel entry)")
+      read -r -p "请输入新面板入口(New Entry):" entrance
+      if [ -z "$entrance" ]; then
+        exit
+      fi
+      $panel_path/TTPanel tools setEntrance -e "$entrance"
       break
       ;;
-    "查看面板默认信息")
-      echo "面板默认信息"
+    "面板默认信息(Panel default info)")
       panel_info
       break
       ;;
-    "关闭BaseAuth认证")
-      echo "关闭BaseAuth认证"
-#      $panel_path/TTPanel tools closeBaseAuth
+    "关闭系统防火墙(Turn off system firewall)")
+      turn_off_system_firewall
       break
       ;;
-    "查看面板版本")
-      $panel_path/TTPanel tools version
-      break
-      ;;
-    "开放系统防火墙端口")
+    "开放系统防火墙端口(Open system firewall ports)")
       while true; do
-        echo "请输入端口号："
+        echo "请输入端口号(Port):"
         read -r port
-
         if [[ -z $port ]]; then
           echo "端口号不能为空，请重新输入！"
         elif ! [[ $port =~ ^[0-9]+$ ]]; then
           echo "端口号必须是数字，请重新输入！"
         else
-          echo "您输入的端口号是：$port"
           break
         fi
       done
       while true; do
         echo "请输入协议(tcp|udp)："
         read -r protocol
-
         if [[ -z $protocol ]]; then
           echo "协议不能为空，请重新输入！"
         else
-          echo "您输入的协议是：$protocol"
           break
         fi
       done
       $panel_path/TTPanel tools openSystemFirewallPort -p "$port" -t "$protocol"
       break
       ;;
+    "查看面板版本(View panel version)")
+      $panel_path/TTPanel tools version
+      break
+      ;;
     *)
-      echo "取消操作,退出"
+      echo "取消操作,退出(Cancel operation, exit)"
       break
       ;;
     esac
@@ -307,9 +301,6 @@ case "$1" in
 'status')
   panel_status
   ;;
-  #'logs')
-  #  error_logs
-  #  ;;
 'default')
   panel_info
   ;;

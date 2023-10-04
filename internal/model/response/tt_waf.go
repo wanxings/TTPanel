@@ -3,6 +3,7 @@ package response
 type TTWafConfig struct {
 	//默认配置
 	Cc               TTWafCCSetting               `json:"cc" binding:"required"`
+	Analytics        TTWafAnalyticsSetting        `json:"analytics" binding:"required"`
 	SemanticAnalysis TTWafSemanticAnalysisSetting `json:"semantic_analysis"`
 	Get              TTWafGetSetting              `json:"get" binding:"required"`
 	Post             TTWafPostSetting             `json:"post" binding:"required"`
@@ -39,6 +40,7 @@ type TTWafProjectConfig struct {
 	DisableUploadExt []string                     `json:"disable_upload_ext"`
 	DisableRule      TTWafDisableRuleSetting      `json:"disable_rule"  binding:"required"`
 	Cc               TTWafCCSetting               `json:"cc"  binding:"required"`
+	Analytics        TTWafAnalyticsSetting        `json:"analytics" binding:"required"`
 	SemanticAnalysis TTWafSemanticAnalysisSetting `json:"semantic_analysis"  binding:"required"`
 	BlockCountry     TTWafBlockCountrySetting     `json:"block_country"  binding:"required"`
 	Get              bool                         `json:"get"`
@@ -64,6 +66,18 @@ type TTWafCCSetting struct {
 type TTWafDomainSetting struct {
 	Path       string   `json:"path"`
 	DomainList []string `json:"domain_list"`
+}
+
+type TTWafAnalyticsSetting struct {
+	Status        bool          `json:"status"`
+	LogSave       int           `json:"log_save"`
+	ExcludeSuffix []string      `json:"exclude_suffix"`
+	ExcludeCode   []int         `json:"exclude_code"`
+	ExcludePath   []interface{} `json:"exclude_path"`
+	ExcludeIp     struct {
+		Ipv4 [][]int64     `json:"ipv4"`
+		Ipv6 []interface{} `json:"ipv6"`
+	} `json:"exclude_ip"`
 }
 type TTWafSemanticAnalysisSetting struct {
 	GetSql  bool `json:"get_sql"`
@@ -137,4 +151,36 @@ type TTWafRegRule struct {
 	Status      bool   `json:"status"`
 	Reg         string `json:"reg"`
 	Description string `json:"description"`
+}
+
+// 总ip数，总请求数，总流量大小
+type TTWafAnalyticsOverview struct {
+	TotalIP      int `json:"total_ip"`
+	TotalReq     int `json:"total_req"`
+	TotalTraffic int `json:"total_traffic"`
+}
+
+type TTWafAccessLog struct {
+	StatusCode     int    `json:"status_code"`
+	BodyLength     int    `json:"body_length"`
+	ServerProtocol string `json:"server_protocol"`
+	Method         string `json:"method"`
+	XForwardedFor  string `json:"x_forwarded_for"`
+	Uri            string `json:"uri"`
+	RequestTime    int    `json:"request_time"`
+	HeadersBody    string `json:"headers_body"`
+	CreateTime     int    `json:"create_time"`
+	UserAgent      string `json:"user_agent"`
+	Domain         string `json:"domain"`
+	ServerName     string `json:"server_name"`
+	Ip             string `json:"ip"`
+}
+
+type TTWafAccessTotal struct {
+	TotalRequests    int            `json:"total_requests"`
+	TotalBodyLength  int            `json:"total_body_length"`
+	UriStatistics    map[string]int `json:"uri_statistics"`
+	SpiderStatistics map[string]int `json:"spider_statistics"`
+	DeviceStatistics map[string]int `json:"device_statistics"`
+	IPList           map[string]int `json:"ip_list"`
 }

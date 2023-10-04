@@ -106,11 +106,11 @@ func FileSize(path string) int64 {
 
 // IsTextFile 是否是文本文件
 func IsTextFile(path string) bool {
-	fileTypeStr, err := ExecShell(fmt.Sprintf("file -bi %s", path))
+	fileTypeStr, err := ExecShell(fmt.Sprintf("file -bk %s", path))
 	if err != nil {
 		return false
 	}
-	return strings.Contains(fileTypeStr, "text/")
+	return strings.Contains(fileTypeStr, "text") || strings.Contains(fileTypeStr, "empty") || strings.Contains(fileTypeStr, "data")
 }
 
 // RenameFileIfExists 如果文件路径存在，返回一个不存在的带序列的新文件路径

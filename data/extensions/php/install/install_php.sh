@@ -18,7 +18,6 @@ Is_64bit=`getconf LONG_BIT`
 run_path='/root'
 
 
-
 php_52="5.2.17"
 php_53="5.3.29"
 php_54="5.4.45"
@@ -31,7 +30,7 @@ php_73='7.3.32'
 php_74='7.4.33'
 php_80='8.0.26'
 php_81='8.1.13'
-php_82='8.2.0'
+php_82='8.2.10'
 opensslVersion="1.0.2u"
 openssl111Version="1.1.1o"
 nghttp2Version="1.42.0"

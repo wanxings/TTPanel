@@ -45,10 +45,10 @@ func (s *ExtensionMysqlService) Info() (*response2.ExtensionsInfoResponse, error
 
 // Install 安装Mysql
 func (s *ExtensionMysqlService) Install(version string) error {
-	//验证版本号是否正确
-	if ok := util.IsMysqlVersion(version); !ok {
-		return errors.New("版本号错误")
-	}
+	//验证版本号是否正确 Todo: 不同mysql版本此处校验有问题，后续优化
+	//if ok := util.IsMysqlVersion(version); !ok {
+	//	return errors.New("版本号错误")
+	//}
 	//检查是否在等待或者进行队列中
 	taskName := "安装[Mysql-" + version + "]"
 	if exists, err := CheckTaskQueueExists(taskName); err != nil {
@@ -120,8 +120,12 @@ func (s *ExtensionMysqlService) SetStatus(action string) error {
 	default:
 		return errors.New("无效动作")
 	}
-	//执行命令 Todo:这里需要优化,暂时只执行不获取执行结果，不知道为什么获取cmd缓冲区会阻塞住
-	return util.ExecShellScriptS(cmdStr)
+	//执行命令 Todo:这里需要优化,出现mysqld_safe A mysqld process already exists时缓冲区会阻塞住,
+	err := util.ExecShellScriptS(cmdStr)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // PerformanceConfig 性能配置
@@ -268,7 +272,7 @@ func (s *ExtensionMysqlService) GetShellPath() string {
 func (s *ExtensionMysqlService) IsInstalled() (string, bool) {
 	//检查是否已安装
 	if util.PathExists(s.GetBinPath()) {
-		result, _ := util.ExecShell("/www/server/mysql/bin/mysql -V|grep Ver|awk '{print $5}'|cut -f1 -d','")
+		result, _ := util.ExecShell("/www/server/mysql/bin/mysql -V | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'")
 		//去除换行和空格
 		result = util.ClearStr(result)
 		return result, true
@@ -286,7 +290,7 @@ func (s *ExtensionMysqlService) IsRunning() bool {
 	result, _ := util.ExecShell("/etc/init.d/mysqld status")
 	//去除换行和空格
 	result = util.ClearStr(result)
-	if strings.Contains(result, "MySQLrunning") {
+	if strings.Contains(result, "SUCCESS!MySQLrunning") || strings.Contains(result, "active(running)") {
 		return true
 	} else {
 		return false

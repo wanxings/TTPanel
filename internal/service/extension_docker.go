@@ -62,7 +62,7 @@ func (s *ExtensionDockerService) Info() (*response.ExtensionsInfoResponse, error
 		global.Log.Errorf("ReadDockerExtensionsInfo  Error：%v", err.Error())
 		return nil, err
 	}
-	dockerInfo.Description.Install = s.CheckDockerInstalled()
+	dockerInfo.Description.Version, dockerInfo.Description.Install = s.IsInstalled()
 	dockerInfo.Description.Status = s.IsRunning()
 	if dockerInfo.Description.Install && !util.PathExists("/etc/docker/daemon.json") {
 		// /etc/docker/daemon.json
@@ -75,7 +75,7 @@ func (s *ExtensionDockerService) Info() (*response.ExtensionsInfoResponse, error
 // BaseStatistics 获取基础统计信息
 func (s *ExtensionDockerService) BaseStatistics() (*response.DockerBaseStatistics, error) {
 	stats := &response.DockerBaseStatistics{}
-	stats.Install = s.CheckDockerInstalled()
+	_, stats.Install = s.IsInstalled()
 	stats.Status = s.IsRunning()
 	// 创建Docker客户端
 	dockerClient, err := s.NewDockerService()
@@ -157,7 +157,11 @@ func (s *ExtensionDockerService) BaseStatistics() (*response.DockerBaseStatistic
 
 // AppList 获取应用列表
 func (s *ExtensionDockerService) AppList() (*response.DockerAppListP, error) {
-	fileBody, err := util.ReadFileStringBody(global.Config.System.PanelPath + "/data/docker_app/app_list.json")
+	listPath := global.Config.System.PanelPath + "/data/docker_app/app_list.json"
+	if !util.PathExists(listPath) {
+		_ = s.UpdateAppList()
+	}
+	fileBody, err := util.ReadFileStringBody(listPath)
 	if err != nil {
 		return nil, err
 	}
@@ -936,8 +940,8 @@ func (s *ExtensionDockerService) IsRunning() bool {
 	return false
 }
 
-//// CheckDockerInstalled 检查docker是否安装
-//func (s *ExtensionDockerService) CheckDockerInstalled() error {
+//// IsInstalled 检查docker是否安装
+//func (s *ExtensionDockerService) IsInstalled() error {
 //
 //	return nil
 //}
@@ -950,7 +954,7 @@ func (s *ExtensionDockerService) IsRunning() bool {
 
 // InitCheck 初始化检查
 func (s *ExtensionDockerService) InitCheck() error {
-	if !s.CheckDockerInstalled() {
+	if _, ok := s.IsInstalled(); !ok {
 		return errors.New("docker Not Installed")
 	}
 	if !s.CheckDockerComposeInstalled() {
@@ -959,13 +963,15 @@ func (s *ExtensionDockerService) InitCheck() error {
 	return nil
 }
 
-// CheckDockerInstalled 检查docker是否已经安装
-func (s *ExtensionDockerService) CheckDockerInstalled() bool {
-	_, err := util.ExecShell("docker --version")
+// IsInstalled docker是否已经安装
+func (s *ExtensionDockerService) IsInstalled() (string, bool) {
+	version, err := util.ExecShell("docker --version | grep -oE '[0-9]+\\.[0-9]+\\.[0-9]+'")
 	if err != nil {
-		return false
+		return "", false
 	}
-	return true
+	//去除换行和空格
+	version = util.ClearStr(version)
+	return version, true
 }
 
 // CheckDockerComposeInstalled 检查docker-compose是否已经安装

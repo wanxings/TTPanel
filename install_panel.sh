@@ -63,9 +63,6 @@ Init() {
   +----------------------------------------------------------------------
   | Copyright © 2023 wanxing All rights reserved.
   +----------------------------------------------------------------------
-  | 安装成功后，${PanelName}的URL将为http://IP:8888
-  | The ${PanelName} URL will be http://IP:8888 when installed.
-  +----------------------------------------------------------------------
   | 为了您的正常使用，请确保使用全新或纯净的系统安装Linux管理面板，不支持已部署项目/环境的系统安装
   | To ensure your normal use, please make sure to install the Linux management panel on a brand new or clean system. Installing on systems that have deployed projects/environments is not supported.
   +----------------------------------------------------------------------
@@ -112,8 +109,8 @@ Software_Check() {
 Get_Package_Manager() {
   if [ -f "/usr/bin/yum" ]; then
     Package="yum"
-  elif [ -f "/usr/bin/apt-get" ]; then
-    Package="apt-get"
+  elif [ -f "/usr/bin/apt" ]; then
+    Package="apt"
   elif [ -f "/usr/bin/pacman" ]; then
     Package="pacman"
   fi
@@ -233,6 +230,7 @@ Install_RPM_Pack() {
 
   #安装依赖包
   yumPacks="libcurl-devel freetype-devel epel-release firewalld ntp  wget tar gcc make openssl openssl-devel gcc libxml2 libxml2-devel libxslt* zlib zlib-devel freetype freetype-devel lsof pcre pcre-devel vixie-cron crontabs icu libicu-devel c-ares libffi-devel ncurses-devel readline-devel gdbm-devel libpcap-devel"
+  pkill -9 yum
   yum install -y "${yumPacks}"
   for yumPack in ${yumPacks}; do
     rpmPack=$(rpm -q "${yumPack}")
@@ -250,37 +248,26 @@ Install_RPM_Pack() {
 Install_Deb_Pack() {
   #
   ln -sf bash /bin/sh
-  #待验证
-  UBUNTU_22=$(grep "Ubuntu 22" /etc/issue)
-  if [ "${UBUNTU_22}" ]; then
-    apt-get remove needrestart -y
-  fi
-  ALIYUN_CHECK=$(grep "Alibaba Cloud " /etc/motd)
-  if [ "${ALIYUN_CHECK}" ] && [ "${UBUNTU_22}" ]; then
-    apt-get remove libicu70 -y
-  fi
-
-  apt-get update -y
-  apt-get install bash -y
+  apt update -y
+  apt install bash -y
   if [ -f "/usr/bin/bash" ]; then
     ln -sf /usr/bin/bash /bin/sh
   fi
-  apt-get install ruby -y
-  apt-get install lsb-release -y
+  apt install ruby -y
+  apt install lsb-release -y
 
   LIBCURL_VER=$(dpkg -l | grep libcurl4 | awk '{print $3}')
   if [ "${LIBCURL_VER}" == "7.68.0-1ubuntu2.8" ]; then
-    apt-get remove libcurl4 -y
-    apt-get install curl -y
+    apt remove libcurl4 -y
+    apt install curl -y
   fi
 
   #安装依赖包
+  debPacks=
   debPacks="wget curl ufw libcurl4-openssl-dev libfreetype6-dev gcc cmake libxslt-dev make tar openssl libssl-dev gcc libxml2 libxml2-dev zlib1g zlib1g-dev libjpeg-dev libpng-dev lsof libpcre3 libpcre3-dev cron net-tools swig build-essential libffi-dev libbz2-dev libncurses-dev libsqlite3-dev libreadline-dev tk-dev libgdbm-dev libdb-dev libdb++-dev libpcap-dev xz-utils git qrencode"
-  apt-get install -y "$debPacks" --force-yes
-
   for debPack in ${debPacks}; do
     if dpkg -l | grep -q "${debPack}"; then
-      apt-get install -y "$debPack"
+      apt install -y "$debPack"
     fi
   done
 
@@ -330,7 +317,7 @@ Service_Add() {
   if [ "${Package}" == "yum" ] || [ "${Package}" == "dnf" ]; then
     chkconfig --add tt
     chkconfig --level 2345 tt on
-  elif [ "${Package}" == "apt-get" ]; then
+  elif [ "${Package}" == "apt" ]; then
     update-rc.d tt defaults
   fi
 }
@@ -485,7 +472,7 @@ Install_Over() {
   echo -e "=================================================================="
   echo -e "\033[32mCongratulations! Installed successfully!\033[0m"
   echo -e "=================================================================="
-  echo "External panel address: ${HTTP_S}://IP:${panelPort}/${panelEntrance}"
+  echo "External panel address: ${HTTP_S}://${Extranet}:${panelPort}/${panelEntrance}"
   echo "Internal panel address: ${HTTP_S}://${LOCAL_IP}:${panelPort}/${panelEntrance}"
   echo -e "username: $panelUserName"
   echo -e "password: $panelPwd"
@@ -510,7 +497,7 @@ Check_release_version() {
 Install_Pack() {
   if [ "${Package}" = "yum" ]; then
     Install_RPM_Pack
-  elif [ "${Package}" = "apt-get" ]; then
+  elif [ "${Package}" = "apt" ]; then
     Install_Deb_Pack
   elif [ "${Package}" = "pacman" ]; then
     Install_Arch_Pack

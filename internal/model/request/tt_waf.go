@@ -7,6 +7,7 @@ import (
 type TTWafGlobalSetR struct {
 	Cc              *response.TTWafCCSetting              `json:"cc"`
 	AttackTolerance *response.TTWafAttackToleranceSetting `json:"attack_tolerance"`
+	Analytics       *response.TTWafAnalyticsSetting       `json:"analytics"`
 }
 
 type TTWafSaveProjectConfig struct {
@@ -56,4 +57,10 @@ type TTWafIPR struct {
 type TTWafIPBlackWhiteR struct {
 	IPV4 [][]int64 `json:"ipv4"`
 	IPV6 []string  `json:"ipv6"`
+}
+
+type AnalyticsOverviewR struct {
+	ProjectId int64 `json:"project_id" binding:"required"`
+	StartTime int64 `json:"start_time"`
+	EndTime   int64 `json:"end_time"`
 }

@@ -11,8 +11,6 @@ Setup_Path=$Root_Path/server/mysql
 Data_Path=$Root_Path/server/mysql_data
 Is_64bit=$(getconf LONG_BIT)
 run_path='/root'
-mysql_51='5.1.73'
-mysql_55='5.5.62'
 mysql_56='5.6.50'
 mysql_57='5.7.40'
 mysql_80='8.0.24'
@@ -26,7 +24,6 @@ mysql_mariadb_105='10.5.10'
 mysql_mariadb_106='10.6.7'
 mysql_mariadb_107='10.7.3'
 mysql_mariadb_108='10.8.2'
-alisql_version='AliSQL-5.6.32'
 Centos7Check=$(cat /etc/redhat-release | grep ' 7.' | grep -iE 'centos')
 Centos8Check=$(cat /etc/redhat-release | grep ' 8.' | grep -iE 'centos|Red Hat')
 CentosStream8Check=$(cat /etc/redhat-release | grep -i "Centos Stream" | grep 8)
@@ -84,18 +81,7 @@ Service_Del() {
   fi
 }
 
-printVersion() {
-  if [ "${version}" = "alisql" ]; then
-    echo "${alisql_version}" >${Setup_Path}/version.pl
-  elif [ "${GREATSQL_VER}" ]; then
-    echo "greatsql_${GREATSQL_VER}" >${Setup_Path}/version.pl
-    echo "greatsql_${GREATSQL_VER}" >${Setup_Path}/version_check.pl
-  elif [ -z "${mariadbCheck}" ]; then
-    echo "${sqlVersion}" >${Setup_Path}/version.pl
-  else
-    echo "mariadb_${sqlVersion}" >${Setup_Path}/version.pl
-  fi
-}
+
 Install_Rpcgen() {
   if [ ! -f "/usr/bin/rpcgen" ]; then
     wget ${download_Url}/extensions/mysql/src/rpcsvc-proto-1.4.tar.gz
@@ -230,12 +216,7 @@ SetLink() {
 }
 
 My_Cnf() {
-  if [ "${version}" == "5.1" ]; then
-    defaultEngine="MyISAM"
-
-  else
-    defaultEngine="InnoDB"
-  fi
+  defaultEngine="InnoDB"
   cat >/etc/my.cnf <<EOF
 [client]
 #password	= your_password
@@ -310,20 +291,12 @@ EOF
     sed -i '/server-id/a\expire_logs_days = 10' /etc/my.cnf
   fi
 
-  if [ "${version}" != "5.5" ]; then
-    if [ "${version}" != "5.1" ]; then
-      sed -i '/skip-external-locking/i\table_definition_cache = 400' /etc/my.cnf
-      sed -i '/table_definition_cache/i\performance_schema_max_table_instances = 400' /etc/my.cnf
-    fi
-  fi
+  sed -i '/skip-external-locking/i\table_definition_cache = 400' /etc/my.cnf
+  sed -i '/table_definition_cache/i\performance_schema_max_table_instances = 400' /etc/my.cnf
+  sed -i '/innodb_lock_wait_timeout/a\innodb_max_dirty_pages_pct = 90' /etc/my.cnf
+  sed -i '/innodb_max_dirty_pages_pct/a\innodb_read_io_threads = 4' /etc/my.cnf
+  sed -i '/innodb_read_io_threads/a\innodb_write_io_threads = 4' /etc/my.cnf
 
-  if [ "${version}" != "5.1" ]; then
-    sed -i '/innodb_lock_wait_timeout/a\innodb_max_dirty_pages_pct = 90' /etc/my.cnf
-    sed -i '/innodb_max_dirty_pages_pct/a\innodb_read_io_threads = 4' /etc/my.cnf
-    sed -i '/innodb_read_io_threads/a\innodb_write_io_threads = 4' /etc/my.cnf
-  fi
-
-  [ "${version}" == "5.1" ] || [ "${version}" == "5.5" ] && sed -i '/STRICT_TRANS_TABLES/d' /etc/my.cnf
   [ "${version}" == "5.7" ] || [ "${version}" == "8.0" ] && sed -i '/#log_queries_not_using_indexes/a\early-plugin-load = ""' /etc/my.cnf
   [ "${version}" == "5.6" ] || [ "${version}" == "5.7" ] || [ "${version}" == "8.0" ] && sed -i '/#skip-name-resolve/i\explicit_defaults_for_timestamp = true' /etc/my.cnf
   chmod 644 /etc/my.cnf
@@ -403,13 +376,8 @@ MySQL_Opt() {
     sed -i "s#^query_cache_size.*#query_cache_size = 512M#" /etc/my.cnf
     sed -i "s#^tmp_table_size.*#tmp_table_size = 512M#" /etc/my.cnf
     sed -i "s#^innodb_buffer_pool_size.*#innodb_buffer_pool_size = 4096M#" /etc/my.cnf
-    if [ "${version}" == "5.5" ]; then
-      sed -i "s#^innodb_log_file_size.*#innodb_log_file_size = 1024M#" /etc/my.cnf
-      sed -i "s#^innodb_log_buffer_size.*#innodb_log_buffer_size = 256M#" /etc/my.cnf
-    else
-      sed -i "s#^innodb_log_file_size.*#innodb_log_file_size = 2048M#" /etc/my.cnf
-      sed -i "s#^innodb_log_buffer_size.*#innodb_log_buffer_size = 512M#" /etc/my.cnf
-    fi
+    sed -i "s#^innodb_log_file_size.*#innodb_log_file_size = 2048M#" /etc/my.cnf
+    sed -i "s#^innodb_log_buffer_size.*#innodb_log_buffer_size = 512M#" /etc/my.cnf
   fi
   chmod 644 /etc/my.cnf
 }
@@ -423,21 +391,6 @@ Install_Ready() {
 }
 Download_Src() {
   cd ${Setup_Path}
-
-  if [ "${version}" == "greatsql_8.0" ]; then
-    version="8.0"
-    wget -O ${Setup_Path}/src.tar.gz ${download_Url}/extensions/mysql/src/greatsql-8.0.25-16.tar.gz
-    tar -xvf src.tar.gz
-    mv greatsql-8.0.25-16 src
-    cd src
-    wget -O boost_1_73_0.tar.gz ${download_Url}/install/src/boost_1_73_0.tar.gz
-    tar -xvf boost_1_73_0.tar.gz
-    mv boost_1_73_0 boost
-    GREATSQL_VER="8.0.25"
-    GREATSQL_80_SET="-DWITH_TOKUDB=OFF -DWITH_ZLIB=bundled -DWITH_ROCKSDB=OFF -DWITH_COREDUMPER=OFF"
-    return
-  fi
-
   mariadbCheck=$(echo ${version} | grep mariadb)
   if [ -z "${mariadbCheck}" ]; then
     sqlName="mysql"
@@ -466,7 +419,7 @@ Download_Src() {
   tar -zxvf src.tar.gz
 
   armCheck=$(uname -m | grep arm)
-  if [ "${version}" == "5.5" ] || [ "${armCheck}" ]; then
+  if [ "${armCheck}" ]; then
     wget -O mysql-5.5-fix-arm-client_plugin.patch ${download_Url}/extensions/mysql/src/patch/mysql-5.5-fix-arm-client_plugin.patch
     patch -p0 <mysql-5.5-fix-arm-client_plugin.patch
     rm -f mysql-5.5-fix-arm-client_plugin.patch
@@ -497,13 +450,7 @@ Install_Configure() {
   #    done
 
   cd src ${Setup_Path}/src
-  if [ "${version}" == "5.1" ]; then
-    gccVersionCheck
-    ./configure --prefix=${Setup_Path} --sysconfdir=/etc --with-plugins=csv,myisam,myisammrg,heap,innobase --with-extra-charsets=all --with-charset=utf8 --with-collation=utf8_general_ci --with-embedded-server --enable-local-infile --enable-assembler --with-mysqld-ldflags=-all-static --enable-thread-safe-client --with-big-tables --with-readline --with-ssl ${i_make_args}
-  elif [ "${version}" == "5.5" ]; then
-    gccVersionCheck
-    cmake -DCMAKE_INSTALL_PREFIX=${Setup_Path} -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_FEDERATED_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8mb4 -DDEFAULT_COLLATION=utf8mb4_general_ci -DWITH_READLINE=1 -DWITH_EMBEDDED_SERVER=1 -DENABLED_LOCAL_INFILE=1 ${i_make_args}
-  elif [ "${version}" == "5.6" ]; then
+  if [ "${version}" == "5.6" ]; then
     cmake -DCMAKE_INSTALL_PREFIX=${Setup_Path} -DSYSCONFDIR=/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_FEDERATED_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8mb4 -DDEFAULT_COLLATION=utf8mb4_general_ci -DWITH_EMBEDDED_SERVER=1 -DENABLED_LOCAL_INFILE=1 ${WITH_SSL} ${i_make_args}
   elif [ "${version}" == "5.7" ]; then
     mkdir install
@@ -596,14 +543,11 @@ Install_Mysql() {
     sleep 2
     /etc/init.d/mysqld start
     printVersion
-    rm -f ${Setup_Path}/version_check.pl
     rm -f ${Setup_Path}/src.tar.gz
     rm -rf ${Setup_Path}/src
     exit 0
   fi
   make install
-
-  [ "${version}" == "8.0" ] || [ "${version}" == "mariadb_10.2" ] || [ "${version}" == "mariadb_10.3" ] || [ "${version}" == "mariadb_10.4" ] && echo "True" >${Setup_Path}/mysqlDb3.pl
 }
 Mysql_Initialize() {
   if [ -d "${Data_Path}" ]; then
@@ -621,9 +565,7 @@ Mysql_Initialize() {
     Authentication_Method="--auth-root-authentication-method=normal"
   fi
 
-  if [ "${version}" == "5.1" ]; then
-    ${Setup_Path}/bin/mysql_install_db --defaults-file=/etc/my.cnf --basedir=${Setup_Path} --datadir=${Data_Path} --user=mysql
-  elif [ "${version}" == "5.7" ] || [ "${version}" == "8.0" ]; then
+  if [ "${version}" == "5.7" ] || [ "${version}" == "8.0" ]; then
     ${Setup_Path}/bin/mysqld --initialize-insecure --basedir=${Setup_Path} --datadir=${Data_Path} --user=mysql
   else
     ${Setup_Path}/scripts/mysql_install_db --defaults-file=/etc/my.cnf --basedir=${Setup_Path} --datadir=${Data_Path} --user=mysql ${Authentication_Method}
@@ -691,12 +633,6 @@ if [ "${actionType}" == 'install' ] || [ "${actionType}" == "update" ]; then
   fi
   mysqlpwd=$(cat /dev/urandom | head -n 16 | md5sum | head -c 16)
   case "$version" in
-  '5.1')
-    sqlVersion=${mysql_51}
-    ;;
-  '5.5')
-    sqlVersion=${mysql_55}
-    ;;
   '5.6')
     sqlVersion=${mysql_56}
     ;;
@@ -705,9 +641,6 @@ if [ "${actionType}" == 'install' ] || [ "${actionType}" == "update" ]; then
     ;;
   '8.0')
     sqlVersion=${mysql_80}
-    ;;
-  'alisql')
-    sqlVersion=${alisql_version}
     ;;
   'mariadb_10.0')
     sqlVersion=${mysql_mariadb_100}
@@ -745,7 +678,6 @@ if [ "${actionType}" == 'install' ] || [ "${actionType}" == "update" ]; then
   if [ -z "${Centos7Check}" ] && [ "${PM}" == "yum" ]; then
     yum install libtirpc libtirpc-devel -y
   fi
-
   OPENSSL_30_VER=$(openssl version | grep '3.0')
   if [ "${OPENSSL_30_VER}" ]; then
     Install_Openssl111
@@ -767,7 +699,6 @@ if [ "${actionType}" == 'install' ] || [ "${actionType}" == "update" ]; then
   Mysql_Initialize
   SetLink
   Service_Add
-  printVersion
   cd /www/panel && ./TTPanel mysql setRootPwd -p $mysqlpwd
   Drop_Test_Databashes
 elif [ "$actionType" == 'uninstall' ]; then

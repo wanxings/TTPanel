@@ -27,4 +27,7 @@ func (m *TTWafRouter) Init(Router *gin.RouterGroup) {
 		ttWafRouter.POST("AddIpBlackList", ttWafApi.AddIpBlackList)       //添加IP黑名单
 		ttWafRouter.POST("SaveProjectConfig", ttWafApi.SaveProjectConfig) //保存项目防火墙配置
 	}
+	{ //分析接口
+		ttWafRouter.POST("AnalyticsOverview", ttWafApi.AnalyticsOverview) //统计分析概览
+	}
 }

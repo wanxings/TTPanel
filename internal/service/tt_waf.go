@@ -7,6 +7,7 @@ import (
 	"TTPanel/internal/model/request"
 	"TTPanel/internal/model/response"
 	"TTPanel/pkg/util"
+	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -14,11 +15,19 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 	"time"
 )
 
 type TTWafService struct {
+	spiderRegex *regexp.Regexp
+	deviceRegex *regexp.Regexp
+}
+
+func (t *TTWafService) NewRegex() {
+	t.spiderRegex = regexp.MustCompile("(?i)(Baiduspider|Bytespider|360Spider|Sogou web spider|Sosospider|Googlebot|bingbot|AdsBot-Google|Google-Adwords|YoudaoBot|Yandex|DNSPod-Monitor|YisouSpider|mpcrawler|Yahoo|DuckDuckGo|Slurp)")
+	t.deviceRegex = regexp.MustCompile("(?i)(Mobile|Android|iPhone|iPod|iPad|Windows|Linux|Macintosh|360SE|360EE|360browser|Qihoo|TheWorld|TencentTraveler|Maxthon|Opera|QQBrowser|UCWEB|UBrowser|MetaSr|2345Explorer|Edg[e]*|MicroMessenger|[Cc]url|HeadlessChrome|[a-zA-Z]+[Bb]ot|[Ww]get|[Ss]pider|[Cc]rawler|[Ss]crapy|zgrab|[Pp]ython|java)")
 }
 
 // Config ttwaf配置
@@ -110,10 +119,17 @@ func (t *TTWafService) GlobalSet(param *request.TTWafGlobalSetR) error {
 	}
 	for _, projectConfig := range projectConfigMap {
 		if param.Cc != nil {
+			status := projectConfig.Cc.Status
 			projectConfig.Cc = *param.Cc
+			projectConfig.Cc.Status = status
 		}
 		if param.AttackTolerance != nil {
 			projectConfig.AttackTolerance = *param.AttackTolerance
+		}
+		if param.Analytics != nil {
+			status := projectConfig.Analytics.Status
+			projectConfig.Analytics = *param.Analytics
+			projectConfig.Analytics.Status = status
 		}
 	}
 	// 将结构体转换为 JSON 字符串
@@ -152,6 +168,7 @@ func (t *TTWafService) GlobalSet(param *request.TTWafGlobalSetR) error {
 		global.Log.Errorf("GlobalSet->json.WriteFile  Error:%s", err.Error())
 		return err
 	}
+
 	return nil
 }
 
@@ -359,7 +376,7 @@ func (t *TTWafService) Overview() (map[string]interface{}, error) {
 // AllowIP 解封IP
 func (t *TTWafService) AllowIP(ip string) error {
 	err := (&model.TTWafBanIpLog{
-		Status: 0,
+		Status: 1,
 	}).BatchUpdates(global.TTWafDB, "status", &model.ConditionsT{
 		"ip = ?": ip,
 	})
@@ -516,6 +533,7 @@ func (t *TTWafService) GenerateProjectConfig(projectName string) (err error) {
 			"jsp",
 		},
 		Cc:               globalConfigs.Cc,
+		Analytics:        globalConfigs.Analytics,
 		AttackTolerance:  globalConfigs.AttackTolerance,
 		SemanticAnalysis: globalConfigs.SemanticAnalysis,
 		BlockCountry:     globalConfigs.BlockCountry,
@@ -621,4 +639,195 @@ func (t *TTWafService) CountryList() []string {
 		"几内亚比绍", "帕劳", "美属萨摩亚", "厄立特里亚", "科摩罗", "圣皮埃尔和密克隆", "瓦利斯和富图纳", "英属印度洋领地", "托克劳", "马绍尔群岛", "基里巴斯",
 		"纽埃", "诺福克岛", "蒙特塞拉特岛", "朝鲜", "马约特", "圣卢西亚", "圣巴泰勒米岛"}
 	return countryList
+}
+
+// AnalyticsOverview 统计分析概览
+func (t *TTWafService) AnalyticsOverview(serverName string, startTimestamp, endTimestamp int64) (*response.TTWafAnalyticsOverview, error) {
+	return nil, nil
+	//var result = &response.TTWafAnalyticsOverview{}
+	//// 获取当前时间
+	//currentTime := time.Now()
+	//// 获取年份
+	//nowYear := currentTime.Year()
+	//// 获取月份
+	//nowMonth := currentTime.Month()
+	//// 获取日
+	//nowDay := currentTime.Day()
+	//// 获取小时
+	//nowHour := currentTime.Hour()
+	//// 提取年、月、日和小时信息
+	//timeMap, _ := util.HoursBetweenTimestamps(startTimestamp, endTimestamp)
+	//logRootPath := fmt.Sprintf("/www/wwwlogs/analytics/%s", serverName)
+	////统计总ip数，总请求数，总流量大小
+	//for ymd, hours := range timeMap {
+	//	//判断该天是否有缓存
+	//	if util.PathExists(fmt.Sprintf("%s/%s/total.json", logRootPath, ymd)) {
+	//		//读取该天的缓存
+	//		body, err := util.ReadFileStringBody(fmt.Sprintf("%s/%s/total.json", logRootPath, ymd))
+	//		if err != nil {
+	//			return nil, err
+	//		}
+	//		continue
+	//	}
+	//	//该天没有缓存则遍历小时
+	//	for _, hour := range hours {
+	//		//判断该小时是否有缓存
+	//		if util.PathExists(fmt.Sprintf("%s/%s/%20d_total.json", logRootPath, ymd, hour)) {
+	//			//读取该小时的缓存
+	//			continue
+	//		}
+	//		//该小时没有缓存则进行解析
+	//		accessTotalByDay, err := t.ParseAccessLogs(fmt.Sprintf("%s/%s/%20d.json", logRootPath, ymd, hour))
+	//		if err != nil {
+	//			global.Log.Debugf("AnalyticsOverview->ParseAccessLogs Error:%s Path:%s", err.Error(), fmt.Sprintf("%s/%s/%20d.json", logRootPath, ymd, hour))
+	//			continue
+	//		}
+	//
+	//		//如果不是当前小时则进行缓存
+	//		if fmt.Sprintf("%d%20d%20d%20d", nowYear, nowMonth, nowDay, nowHour) != fmt.Sprintf("%s%20d", ymd, hour) {
+	//			accessTotalStr, err := util.StructToJsonStr(accessTotalByDay)
+	//			if err != nil {
+	//				global.Log.Debugf("AnalyticsOverview->StructToJsonStr Error:%s", err.Error())
+	//				continue
+	//			}
+	//			err = util.WriteFile(fmt.Sprintf("%s/%s/%20d_total.json", logRootPath, ymd, hour), []byte(accessTotalStr), 0644)
+	//			if err != nil {
+	//				global.Log.Debugf("AnalyticsOverview->WriteFile Error:%s", err.Error())
+	//				continue
+	//			}
+	//		}
+	//	}
+	//	//如果不是今天则进行缓存
+	//	if fmt.Sprintf("%d%20d%20d", nowYear, nowMonth, nowDay) != fmt.Sprintf("%s%20d", ymd) {
+	//		accessTotalStr, err := util.StructToJsonStr(accessTotal)
+	//		if err != nil {
+	//			global.Log.Debugf("AnalyticsOverview->StructToJsonStr Error:%s", err.Error())
+	//			continue
+	//		}
+	//		err = util.WriteFile(fmt.Sprintf("%s/%s/%20d_total.json", logRootPath, ymd, hour), []byte(accessTotalStr), 0644)
+	//		if err != nil {
+	//			global.Log.Debugf("AnalyticsOverview->WriteFile Error:%s", err.Error())
+	//			continue
+	//		}
+	//	}
+	//
+	//	jsonPath := fmt.Sprintf("%s/%s/%s", logRootPath, ymd)
+	//
+	//	fmt.Printf("%s: %v\n", ymd, hours)
+	//}
+
+}
+
+func (t *TTWafService) ParseAccessLogs(path string) (*response.TTWafAccessTotal, error) {
+	//统计body_length（流量）  统计uri次数 统计总请求 统计蜘蛛请求 去重后的ip列表 错误数 访问设备统计
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	var totalRequests int
+	var totalBodyLength int
+	var uriStatistics map[string]int
+	var spiderStatistics map[string]int
+	var deviceStatistics map[string]int
+	var ipList map[string]int
+
+	defer file.Close()
+	// 创建一个新的 Scanner 对象
+	scanner := bufio.NewScanner(file)
+	// 逐行读取文件内容
+	for scanner.Scan() {
+		line := scanner.Text()
+		line = strings.TrimSpace(line)
+		if util.StrIsEmpty(line) {
+			continue
+		}
+		var tmpInfo struct {
+			StatusCode     int    `json:"status_code"`
+			BodyLength     int    `json:"body_length"`
+			ServerProtocol string `json:"server_protocol"`
+			Method         string `json:"method"`
+			XForwardedFor  string `json:"x_forwarded_for"`
+			Uri            string `json:"uri"`
+			RequestTime    int    `json:"request_time"`
+			HeadersBody    string `json:"headers_body"`
+			CreateTime     int    `json:"create_time"`
+			UserAgent      string `json:"user_agent"`
+			Domain         string `json:"domain"`
+			ServerName     string `json:"server_name"`
+			Ip             string `json:"ip"`
+		}
+		_ = util.JsonStrToStruct(line, &tmpInfo)
+		if &tmpInfo == nil {
+			continue
+		}
+		//累计总请求
+		totalRequests++
+		//累计请求大小
+		totalBodyLength = totalBodyLength + tmpInfo.BodyLength
+		//统计uri
+		if _, ok := uriStatistics[tmpInfo.Uri]; ok {
+			uriStatistics[tmpInfo.Uri] = uriStatistics[tmpInfo.Uri] + 1
+		} else {
+			uriStatistics[tmpInfo.Uri] = 1
+		}
+		//统计蜘蛛
+		isSpider, spiderName := t.MatchSpider(tmpInfo.UserAgent)
+		if isSpider {
+			if _, ok := spiderStatistics[spiderName]; ok {
+				spiderStatistics[spiderName] = spiderStatistics[spiderName] + 1
+			} else {
+				spiderStatistics[spiderName] = 1
+			}
+		}
+
+		//统计设备
+		deviceName := t.MatchDevice(tmpInfo.UserAgent)
+		if isSpider {
+			if _, ok := deviceStatistics[deviceName]; ok {
+				deviceStatistics[deviceName] = deviceStatistics[deviceName] + 1
+			} else {
+				deviceStatistics[deviceName] = 1
+			}
+		}
+
+		//统计ip
+		if _, ok := ipList[tmpInfo.XForwardedFor]; ok {
+			ipList[tmpInfo.XForwardedFor] = ipList[tmpInfo.XForwardedFor] + 1
+		} else {
+			ipList[tmpInfo.XForwardedFor] = 1
+		}
+
+	}
+	// 检查是否有错误发生
+	if err := scanner.Err(); err != nil {
+		fmt.Println("读取文件时发生错误:", err)
+	}
+	return &response.TTWafAccessTotal{
+		TotalRequests:    totalRequests,
+		TotalBodyLength:  totalBodyLength,
+		UriStatistics:    uriStatistics,
+		SpiderStatistics: spiderStatistics,
+		DeviceStatistics: deviceStatistics,
+		IPList:           ipList,
+	}, nil
+}
+
+func (t *TTWafService) MatchSpider(userAgent string) (bool, string) {
+	// 将用户代理字符串转换为小写，以不区分大小写进行匹配
+	userAgent = strings.ToLower(userAgent)
+	// 匹配蜘蛛信息
+	matches := t.spiderRegex.FindStringSubmatch(userAgent)
+	if len(matches) > 0 {
+		return true, matches[0]
+	}
+	return false, ""
+}
+
+func (t *TTWafService) MatchDevice(userAgent string) string {
+	// 匹配蜘蛛信息
+	matches := t.deviceRegex.FindStringSubmatch(userAgent)
+	if len(matches) > 0 {
+		return matches[0]
+	}
+	return "None"
 }

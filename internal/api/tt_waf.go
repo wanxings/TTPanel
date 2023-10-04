@@ -47,6 +47,11 @@ func (m *TTWafApi) ProjectConfig(c *gin.Context) {
 		response.ToErrorResponse(errcode.ServerError.WithDetails(err.Error()))
 		return
 	}
+	err = ServiceGroupApp.ExtensionNginxServiceApp.SetStatus(constant.ProcessCommandByRestart)
+	if err != nil {
+		response.ToErrorResponse(errcode.ServerError.WithDetails(err.Error()))
+		return
+	}
 	response.ToResponse(data)
 }
 
@@ -65,6 +70,11 @@ func (m *TTWafApi) GlobalSet(c *gin.Context) {
 	}
 
 	err := ServiceGroupApp.TTWafServiceApp.GlobalSet(&param)
+	if err != nil {
+		response.ToErrorResponse(errcode.ServerError.WithDetails(err.Error()))
+		return
+	}
+	err = ServiceGroupApp.ExtensionNginxServiceApp.SetStatus(constant.ProcessCommandByRestart)
 	if err != nil {
 		response.ToErrorResponse(errcode.ServerError.WithDetails(err.Error()))
 		return
@@ -94,7 +104,7 @@ func (m *TTWafApi) SaveConfig(c *gin.Context) {
 	param := ttwafResponse.TTWafConfig{}
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Log.Errorf("tt_waf.GlobalSet.BindAndValid errs: %v", errs)
+		global.Log.Errorf("tt_waf.SaveConfig.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -293,4 +303,34 @@ func (m *TTWafApi) AddIpBlackList(c *gin.Context) {
 	go ServiceGroupApp.LogAuditServiceApp.WriteOperationLog(
 		c, constant.OperationLogTypeByTTWaf, helper.MessageWithMap("ttwaf.AddIpBlackList", map[string]any{"Ipv4": param.IPV4, "Ipv6": param.IPV6}))
 	response.ToResponseMsg(helper.Message("tips.AddSuccess"))
+}
+
+// AnalyticsOverview
+// @Tags      tt_waf
+// @Summary   统计分析概览
+// @Router    ttwaf/AnalyticsOverview [post]
+func (m *TTWafApi) AnalyticsOverview(c *gin.Context) {
+	response := app.NewResponse(c)
+	param := request.AnalyticsOverviewR{}
+	valid, errs := app.BindAndValid(c, &param)
+	if !valid {
+		global.Log.Errorf("tt_waf.AnalyticsOverview.BindAndValid errs: %v", errs)
+		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
+		return
+	}
+
+	//获取项目信息
+	projectGet, err := ServiceGroupApp.ProjectServiceApp.GetProjectInfoByID(param.ProjectId)
+	if err != nil {
+		response.ToErrorResponse(errcode.ServerError.WithDetails(err.Error()))
+		return
+	}
+
+	//获取项目统计分析信息
+	data, err := ServiceGroupApp.TTWafServiceApp.AnalyticsOverview(projectGet.Name, param.StartTime, param.EndTime)
+	if err != nil {
+		response.ToErrorResponse(errcode.ServerError.WithDetails(err.Error()))
+		return
+	}
+	response.ToResponse(data)
 }
