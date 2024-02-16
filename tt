@@ -232,6 +232,9 @@ Menu() {
         fi
       done
       $panel_path/TTPanel tools setPort -p "$port"
+      panel_stop
+      sleep 6
+      panel_start
       break
       ;;
     "修改面板入口(Modify panel entry)")
@@ -239,7 +242,13 @@ Menu() {
       if [ -z "$entrance" ]; then
         exit
       fi
+      if [[ $entrance != /* ]]; then
+        entrance="/$entrance"
+      fi
       $panel_path/TTPanel tools setEntrance -e "$entrance"
+      panel_stop
+      sleep 6
+      panel_start
       break
       ;;
     "面板默认信息(Panel default info)")

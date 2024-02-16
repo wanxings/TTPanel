@@ -10,7 +10,7 @@ if [ "$(whoami)" != "root" ]; then
   exit 1
 fi
 
-Version="0.0.8"
+Version="0.1.0"
 PanelName="TTPanel"
 setup_path="/www"
 GetSysInfo() {
@@ -168,7 +168,7 @@ Get_Download_Node() {
 #Arch Linux安装必要服务
 Install_Arch_Pack() {
   pacman -Sy
-  pacman -S curl wget tar freetype2 unzip firewalld openssl pkg-config make gcc cmake libxml2 libxslt libvpx gd libsodium oniguruma sqlite libzip autoconf inetutils sudo --noconfirm
+  pacman -S curl wget tar file freetype2 unzip firewalld openssl pkg-config make gcc cmake libxml2 libxslt libvpx gd libsodium oniguruma sqlite libzip autoconf inetutils sudo --noconfirm
 }
 
 #获取IP
@@ -229,7 +229,7 @@ Install_RPM_Pack() {
   sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 
   #安装依赖包
-  yumPacks="libcurl-devel freetype-devel epel-release firewalld ntp  wget tar gcc make openssl openssl-devel gcc libxml2 libxml2-devel libxslt* zlib zlib-devel freetype freetype-devel lsof pcre pcre-devel vixie-cron crontabs icu libicu-devel c-ares libffi-devel ncurses-devel readline-devel gdbm-devel libpcap-devel"
+  yumPacks="libcurl-devel freetype-devel epel-release firewalld ntp file wget tar gcc make openssl openssl-devel gcc libxml2 libxml2-devel libxslt* zlib zlib-devel freetype freetype-devel lsof pcre pcre-devel vixie-cron crontabs icu libicu-devel c-ares libffi-devel ncurses-devel readline-devel gdbm-devel libpcap-devel"
   pkill -9 yum
   yum install -y "${yumPacks}"
   for yumPack in ${yumPacks}; do
@@ -264,7 +264,7 @@ Install_Deb_Pack() {
 
   #安装依赖包
   debPacks=
-  debPacks="wget curl ufw libcurl4-openssl-dev libfreetype6-dev gcc cmake libxslt-dev make tar openssl libssl-dev gcc libxml2 libxml2-dev zlib1g zlib1g-dev libjpeg-dev libpng-dev lsof libpcre3 libpcre3-dev cron net-tools swig build-essential libffi-dev libbz2-dev libncurses-dev libsqlite3-dev libreadline-dev tk-dev libgdbm-dev libdb-dev libdb++-dev libpcap-dev xz-utils git qrencode"
+  debPacks="wget curl ufw libcurl4-openssl-dev libfreetype6-dev gcc cmake libxslt-dev make file tar openssl libssl-dev gcc libxml2 libxml2-dev zlib1g zlib1g-dev libjpeg-dev libpng-dev lsof libpcre3 libpcre3-dev cron net-tools swig build-essential libffi-dev libbz2-dev libncurses-dev libsqlite3-dev libreadline-dev tk-dev libgdbm-dev libdb-dev libdb++-dev libpcap-dev xz-utils git qrencode"
   for debPack in ${debPacks}; do
     if dpkg -l | grep -q "${debPack}"; then
       apt install -y "$debPack"
